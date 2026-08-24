@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>PureOre Nexus | Automotive Investment Network</title>
+    <meta name="description" content="PureOre Nexus is a modern automotive investment platform connecting users with opportunities across the automotive ecosystem." />
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #c9a84c;
+            --gold-glow: rgba(201, 168, 76, 0.35);
+            --gold-subtle: rgba(201, 168, 76, 0.12);
+            --charcoal: #1a1a1a;
+            --dark: #0b0b0b;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-white: #f5f3f0;
+            --text-muted: rgba(245, 243, 240, 0.6);
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--dark);
+            color: var(--text-white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0b0b0b;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-emblem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .loading-emblem-symbol {
+            width: 72px;
+            height: 72px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 1.2rem;
+            background: rgba(201, 168, 76, 0.04);
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.08);
+        }
+        .loading-emblem-symbol::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-top-color: var(--gold);
+            animation: spin 2.2s linear infinite;
+        }
+        .loading-emblem-symbol svg {
+            width: 36px;
+            height: 36px;
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            color: var(--text-white);
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+        }
+        .loading-sub {
+            font-size: 0.75rem;
+            letter-spacing: 0.35em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .loading-progress-wrap {
+            width: 200px;
+            max-width: 70vw;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .loading-progress-track {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            border-radius: 4px;
+            box-shadow: 0 0 18px var(--gold-glow), 0 0 6px var(--gold-glow);
+            transition: width 0.15s linear;
+        }
+
+        .loading-percent {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .loading-message {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            text-align: center;
+            min-height: 1.2em;
+            transition: opacity 0.3s ease;
+            font-weight: 300;
+        }
+
+        /* ===== MAIN LANDING ===== */
+        #main-content {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(1.02);
+            transition: opacity 1s ease, transform 1.2s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        #main-content.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .landing-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: url('https://i.ibb.co/cXxZh1w3/20260824-014737.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: scale(1.02);
+            transition: transform 6s ease;
+        }
+        #main-content.visible .landing-bg {
+            transform: scale(1);
+        }
+
+        .landing-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background: radial-gradient(ellipse at 30% 50%, rgba(11, 11, 11, 0.35) 0%, rgba(11, 11, 11, 0.78) 75%, rgba(11, 11, 11, 0.92) 100%);
+            pointer-events: none;
+        }
+
+        /* ===== SCROLL CONTAINER ===== */
+        .scroll-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0 12px;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-white);
+        }
+
+        .header-brand-icon {
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(201, 168, 76, 0.05);
+        }
+        .header-brand-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--gold);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .header-brand-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .header-brand-text span {
+            color: var(--gold);
+        }
+
+        /* desktop nav */
+        .nav-desktop {
+            display: none;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-desktop a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            font-weight: 400;
+            transition: color 0.25s ease;
+            position: relative;
+        }
+        .nav-desktop a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-desktop a:hover {
+            color: var(--text-white);
+        }
+        .nav-desktop a:hover::after {
+            width: 100%;
+        }
+        .nav-desktop a.login-link {
+            color: var(--gold);
+            font-weight: 500;
+        }
+        .nav-desktop a.login-link:hover {
+            color: #dbb95c;
+        }
+
+        /* hamburger */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.3s ease;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: var(--text-white);
+            border-radius: 4px;
+            transition: 0.3s ease;
+            transform-origin: center;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* mobile menu overlay */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 15;
+            background: rgba(11, 11, 11, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 40px;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            transition: color 0.25s ease, transform 0.25s ease;
+            transform: translateY(12px);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.25s ease;
+        }
+        .mobile-menu.open a {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .mobile-menu.open a:nth-child(1) {
+            transition-delay: 0.05s;
+        }
+        .mobile-menu.open a:nth-child(2) {
+            transition-delay: 0.10s;
+        }
+        .mobile-menu.open a:nth-child(3) {
+            transition-delay: 0.15s;
+        }
+        .mobile-menu.open a:nth-child(4) {
+            transition-delay: 0.20s;
+        }
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+        .mobile-menu a.mobile-login {
+            color: var(--gold);
+            font-weight: 500;
+        }
+        .mobile-menu a.mobile-login:hover {
+            color: #dbb95c;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px 0 40px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .hero-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(18px);
+            animation: fadeUp 0.9s ease 0.3s forwards;
+        }
+
+        .hero-headline {
+            font-size: clamp(2.4rem, 11vw, 4.8rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.15rem;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUp 0.9s ease 0.45s forwards;
+        }
+        .hero-headline .gold {
+            color: var(--gold);
+        }
+
+        .hero-sub-headline {
+            font-size: clamp(1.4rem, 5vw, 2.6rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-bottom: 1.2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.9s ease 0.6s forwards;
+        }
+
+        .hero-desc {
+            max-width: 540px;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 2.2rem;
+            opacity: 0;
+            transform: translateY(18px);
+            animation: fadeUp 0.9s ease 0.75s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            opacity: 0;
+            transform: translateY(18px);
+            animation: fadeUp 0.9s ease 0.9s forwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 38px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 60px;
+            border: 1.5px solid transparent;
+            transition: all 0.35s ease;
+            cursor: pointer;
+            min-height: 54px;
+            min-width: 140px;
+            background: transparent;
+            color: var(--text-white);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: #0b0b0b;
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.15);
+        }
+        .btn-primary:hover {
+            background: #dbb95c;
+            border-color: #dbb95c;
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            background: rgba(201, 168, 76, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.06);
+        }
+
+        .btn-gold-border {
+            border-color: var(--gold);
+            color: var(--text-white);
+            background: rgba(201, 168, 76, 0.04);
+        }
+        .btn-gold-border:hover {
+            background: var(--gold);
+            color: #0b0b0b;
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.4s forwards;
+            cursor: default;
+        }
+        .scroll-indicator .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1.5px solid var(--text-muted);
+            border-bottom: 1.5px solid var(--text-muted);
+            transform: rotate(45deg);
+            animation: bounceArrow 2.2s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes bounceArrow {
+            0%,
+            100% {
+                transform: rotate(45deg) translate(0, 0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: rotate(45deg) translate(4px, 4px);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex;
+            }
+            .hamburger {
+                display: none;
+            }
+            .header {
+                padding: 24px 0 16px;
+            }
+            .hero {
+                padding: 40px 0 60px;
+                min-height: calc(100vh - 100px);
+            }
+            .hero-label {
+                font-size: 0.7rem;
+            }
+            .hero-desc {
+                font-size: 1.05rem;
+            }
+            .scroll-indicator {
+                bottom: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scroll-container {
+                padding: 0 16px;
+            }
+            .header-brand-text {
+                font-size: 0.85rem;
+                letter-spacing: 0.2em;
+            }
+            .header-brand-icon {
+                width: 28px;
+                height: 28px;
+            }
+            .header-brand-icon svg {
+                width: 15px;
+                height: 15px;
+            }
+            .btn {
+                padding: 12px 28px;
+                font-size: 0.7rem;
+                min-height: 48px;
+                min-width: 120px;
+            }
+            .hero-actions {
+                gap: 10px;
+            }
+            .hero-headline {
+                font-size: clamp(2rem, 10vw, 2.8rem);
+            }
+            .hero-sub-headline {
+                font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+            }
+            .scroll-indicator {
+                font-size: 0.5rem;
+                bottom: 18px;
+            }
+            .scroll-indicator .arrow {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .header-brand-text {
+                font-size: 0.7rem;
+                letter-spacing: 0.15em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.65rem;
+                min-height: 42px;
+                min-width: 100px;
+            }
+            .hero-headline {
+                font-size: 1.8rem;
+            }
+            .hero-sub-headline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero {
+                padding: 60px 0 80px;
+            }
+            .hero-desc {
+                font-size: 1.15rem;
+                max-width: 580px;
+            }
+            .btn {
+                padding: 16px 44px;
+                font-size: 0.85rem;
+                min-height: 58px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .scroll-container {
+                max-width: 1400px;
+            }
+            .hero-headline {
+                font-size: 5.6rem;
+            }
+            .hero-sub-headline {
+                font-size: 3rem;
+            }
+        }
+
+        /* ===== UTILITY ===== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* ===== GLASS HEADER SHADOW ===== */
+        .header-glass {
+            background: rgba(11, 11, 11, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 0 0 20px 20px;
+            margin: 0 -24px;
+            padding: 0 24px;
+        }
+        @media (min-width: 768px) {
+            .header-glass {
+                margin: 0 -32px;
+                padding: 0 32px;
+                border-radius: 0 0 32px 32px;
+            }
+            .scroll-container {
+                padding: 0 32px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-glass {
+                margin: 0 -16px;
+                padding: 0 16px;
+                border-radius: 0 0 16px 16px;
+            }
+            .scroll-container {
+                padding: 0 16px;
+            }
+        }
+
+        /* ===== PREVENT SCROLL BAR JANK ===== */
+        #main-content {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(201, 168, 76, 0.2) transparent;
+        }
+        #main-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        #main-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #main-content::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, 0.3);
+            border-radius: 10px;
+        }
+
+        /* ===== FIREBASE PLACEHOLDER ===== */
+        /* Firebase will be initialized here when ready */
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen" role="status" aria-label="Loading">
+        <div class="loading-emblem">
+            <div class="loading-emblem-symbol" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none" />
+                    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6.5 6.5l2 2M15.5 15.5l2 2M6.5 17.5l2-2M15.5 8.5l2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none" />
+                </svg>
+            </div>
+            <div class="loading-title">PureOre Nexus</div>
+            <div class="loading-sub">Automotive Investment Network</div>
+        </div>
+
+        <div class="loading-progress-wrap">
+            <div class="loading-progress-track">
+                <div class="loading-progress-bar" id="progress-bar" style="width:0%;"></div>
+            </div>
+            <div class="loading-percent" id="loading-percent">0%</div>
+            <div class="loading-message" id="loading-message">Initializing Nexus...</div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN LANDING ===== -->
+    <div id="main-content">
+        <div class="landing-bg" aria-hidden="true"></div>
+        <div class="landing-overlay" aria-hidden="true"></div>
+
+        <div class="scroll-container">
+            <!-- HEADER -->
+            <header class="header header-glass" role="banner">
+                <a href="#" class="header-brand" aria-label="PureOre Nexus home">
+                    <span class="header-brand-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none" />
+                            <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6.5 6.5l2 2M15.5 15.5l2 2M6.5 17.5l2-2M15.5 8.5l2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none" />
+                        </svg>
+                    </span>
+                    <span class="header-brand-text">Pure<span>Ore</span> Nexus</span>
+                </a>
+
+                <nav class="nav-desktop" aria-label="Main navigation">
+                    <a href="#about">About</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="login.html" class="login-link">Login</a>
+                </nav>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </header>
+
+            <!-- MOBILE MENU -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+                <a href="#about" class="mobile-link">About</a>
+                <a href="#how-it-works" class="mobile-link">How It Works</a>
+                <a href="register.html" class="mobile-link">Get Started</a>
+                <a href="login.html" class="mobile-login mobile-link">Login</a>
+            </nav>
+
+            <!-- HERO -->
+            <section class="hero" aria-label="Hero">
+                <div class="hero-label">PureOre Nexus</div>
+                <h1 class="hero-headline">
+                    Drive the <span class="gold">Future.</span>
+                </h1>
+                <div class="hero-sub-headline">Build Your Wealth.</div>
+                <p class="hero-desc">
+                    Explore opportunities across the automotive investment ecosystem
+                    through a modern, secure and connected platform.
+                </p>
+                <div class="hero-actions">
+                    <a href="register.html" class="btn btn-primary">Get Started</a>
+                    <a href="login.html" class="btn btn-gold-border">Login</a>
+                </div>
+            </section>
+
+            <!-- SCROLL INDICATOR -->
+            <div class="scroll-indicator" aria-hidden="true">
+                <span>Scroll to explore</span>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // LOADING SCREEN SEQUENCE
+        // ============================================================
+        (function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressBar = document.getElementById('progress-bar');
+            const percentEl = document.getElementById('loading-percent');
+            const msgEl = document.getElementById('loading-message');
+            const mainContent = document.getElementById('main-content');
+
+            const messages = [
+                'Initializing Nexus...',
+                'Preparing your experience...',
+                'Connecting to the Nexus...',
+                'Welcome to PureOre Nexus'
+            ];
+
+            let progress = 0;
+            const duration = 4200; // ms
+            const interval = 30; // ms per step
+            const steps = duration / interval;
+            const increment = 100 / steps;
+
+            // Determine which message to show based on progress
+            function updateMessage(pct) {
+                let idx = 0;
+                if (pct >= 75) idx = 3;
+                else if (pct >= 45) idx = 2;
+                else if (pct >= 20) idx = 1;
+                else idx = 0;
+                msgEl.textContent = messages[idx] || messages[0];
+            }
+
+            let timer = setInterval(function() {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(timer);
+
+                    // Final message
+                    msgEl.textContent = messages[3];
+                    progressBar.style.width = '100%';
+                    percentEl.textContent = '100%';
+
+                    // Hide loading, show main
+                    setTimeout(function() {
+                        loadingScreen.classList.add('hidden');
+                        mainContent.classList.add('visible');
+                        // Ensure scroll is enabled
+                        document.body.style.overflow = 'auto';
+                    }, 400);
+
+                    return;
+                }
+
+                const pct = Math.min(progress, 100);
+                progressBar.style.width = pct + '%';
+                percentEl.textContent = Math.round(pct) + '%';
+                updateMessage(pct);
+
+            }, interval);
+
+            // Fallback: if something hangs, force after 6s
+            setTimeout(function() {
+                if (!mainContent.classList.contains('visible')) {
+                    clearInterval(timer);
+                    progressBar.style.width = '100%';
+                    percentEl.textContent = '100%';
+                    msgEl.textContent = messages[3];
+                    setTimeout(function() {
+                        loadingScreen.classList.add('hidden');
+                        mainContent.classList.add('visible');
+                        document.body.style.overflow = 'auto';
+                    }, 300);
+                }
+            }, 6000);
+
+            // Prevent scroll during loading
+            document.body.style.overflow = 'hidden';
+        })();
+
+        // ============================================================
+        // HAMBURGER TOGGLE
+        // ============================================================
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            hamburger.addEventListener('click', function() {
+                const isOpen = mobileMenu.classList.toggle('open');
+                hamburger.classList.toggle('active');
+                hamburger.setAttribute('aria-expanded', isOpen);
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+
+            // Close menu on link click
+            document.querySelectorAll('.mobile-link').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+
+        // ============================================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS (desktop nav)
+        // ============================================================
+        (function() {
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        })();
+
+        // ============================================================
+        // FIREBASE PLACEHOLDER (ready for integration)
+        // ============================================================
+        /*
+         * Firebase will be initialized here when the backend is ready.
+         * The configuration will be added without modifying the existing
+         * structure of this landing page.
+         */
+        console.log('PureOre Nexus — Landing ready.');
+    </script>
+
+</body>
+</html>
