@@ -187,11 +187,12 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: url('https://i.ibb.co/cXxZh1w3/20260824-014737.jpg');
+            background-color: #0b0b0b;
+            background-image: url('https://images.unsplash.com/photo-1603386329225-868f9b1c6e4f?w=1200&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.3;
+            opacity: 0.25;
         }
         .bg-overlay {
             position: fixed;
@@ -552,7 +553,7 @@
         }
 
         /* ============================================================
-           CARDS (Investment, Daily Check, Referral)
+           CARDS
         ============================================================ */
         .card-grid {
             display: grid;
@@ -680,7 +681,7 @@
         }
 
         /* ============================================================
-           INVESTMENT PLAN CARDS
+           PLAN CARD
         ============================================================ */
         .plan-card {
             background: rgba(255, 255, 255, 0.02);
@@ -771,7 +772,7 @@
         }
 
         /* ============================================================
-           MY INVESTMENTS
+           INVESTMENT ITEM
         ============================================================ */
         .investment-item {
             display: flex;
@@ -821,7 +822,7 @@
         }
 
         /* ============================================================
-           TRANSACTIONS
+           TRANSACTION ITEM
         ============================================================ */
         .transaction-item {
             display: flex;
@@ -866,7 +867,7 @@
         }
 
         /* ============================================================
-           ANNOUNCEMENTS
+           ANNOUNCEMENT
         ============================================================ */
         .announcement {
             background: rgba(201, 168, 76, 0.04);
@@ -961,7 +962,7 @@
         }
 
         /* ============================================================
-           BOTTOM NAVIGATION (Mobile)
+           BOTTOM NAV
         ============================================================ */
         .bottom-nav {
             position: fixed;
@@ -1305,9 +1306,6 @@
             border-radius: 10px;
         }
 
-        /* ============================================================
-           UTILITY
-        ============================================================ */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -1318,11 +1316,9 @@
             clip: rect(0, 0, 0, 0);
             border: 0;
         }
-
         .hidden {
             display: none !important;
         }
-
         .text-gold {
             color: var(--gold);
         }
@@ -1381,7 +1377,7 @@
         }
 
         /* ============================================================
-           TOAST NOTIFICATION
+           TOAST
         ============================================================ */
         .toast {
             position: fixed;
@@ -1771,15 +1767,15 @@
                         <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <h2>Account Restricted</h2>
-                    <p>Your account has been restricted. Please contact support for assistance.</p>
-                    <a href="support.html" class="btn">
+                    <p>Your account has been restricted by an administrator.</p>
+                    <button class="btn" id="blocked-logout-btn">
                         <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Contact Support
-                    </a>
+                        Go to Login
+                    </button>
                 </div>
             </div>
 
@@ -1806,7 +1802,7 @@
     </div>
 
     <!-- ============================================================
-    BOTTOM NAVIGATION (Mobile)
+    BOTTOM NAVIGATION
     ============================================================ -->
     <nav class="bottom-nav" aria-label="Mobile navigation">
         <a href="dashboard.html" class="active" aria-label="Home">
@@ -1974,16 +1970,13 @@
         }
 
         // ============================================================
-        // FORMAT CURRENCY
+        // FORMAT HELPERS
         // ============================================================
         function formatCurrency(amount) {
             if (amount === undefined || amount === null) return '0.00';
             return Number(amount).toFixed(2);
         }
 
-        // ============================================================
-        // FORMAT DATE
-        // ============================================================
         function formatDate(timestamp) {
             if (!timestamp) return '—';
             try {
@@ -2005,22 +1998,39 @@
         }
 
         // ============================================================
+        // REDIRECT TO LOGIN (with blocked flag)
+        // ============================================================
+        function redirectToLoginBlocked() {
+            window.location.href = 'login.html?blocked=true';
+        }
+
+        // ============================================================
+        // HANDLE BLOCKED USER
+        // ============================================================
+        async function handleBlockedUser() {
+            try {
+                await signOut(auth);
+            } catch (e) {
+                console.warn('Sign out during blocked redirect:', e);
+            }
+            // Show the blocked screen briefly, then redirect
+            dashContent.classList.add('hidden');
+            blockedState.classList.remove('hidden');
+            errorState.classList.add('hidden');
+            mainDash.classList.add('visible');
+            loadScreen.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            // Redirect after a moment
+            setTimeout(redirectToLoginBlocked, 1200);
+        }
+
+        // ============================================================
         // SHOW DASHBOARD
         // ============================================================
         function showDashboard() {
             loadScreen.classList.add('hidden');
             mainDash.classList.add('visible');
             document.body.style.overflow = 'auto';
-        }
-
-        // ============================================================
-        // SHOW BLOCKED
-        // ============================================================
-        function showBlocked() {
-            dashContent.classList.add('hidden');
-            blockedState.classList.remove('hidden');
-            errorState.classList.add('hidden');
-            showDashboard();
         }
 
         // ============================================================
@@ -2218,13 +2228,35 @@
         }
 
         // ============================================================
+        // REAL-TIME USER LISTENER (with blocked detection)
+        // ============================================================
+        function listenToUserUpdates(uid) {
+            const userRef = doc(db, 'users', uid);
+            return onSnapshot(userRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    if (data.isBlocked === true) {
+                        // User was blocked in real-time → redirect to login
+                        handleBlockedUser();
+                        return;
+                    }
+                    renderUser(data);
+                } else {
+                    // User document deleted
+                    handleBlockedUser();
+                }
+            }, (error) => {
+                console.error('User listener error:', error);
+            });
+        }
+
+        // ============================================================
         // LOAD DASHBOARD DATA
         // ============================================================
         async function loadDashboardData(user) {
             try {
                 const uid = user.uid;
 
-                // Load user document
                 const userRef = doc(db, 'users', uid);
                 const userSnap = await getDoc(userRef);
 
@@ -2235,14 +2267,15 @@
 
                 const userData = userSnap.data();
 
+                // Check if blocked
                 if (userData.isBlocked === true) {
-                    showBlocked();
+                    await handleBlockedUser();
                     return;
                 }
 
                 renderUser(userData);
 
-                // Load wallet
+                // Wallet
                 const walletRef = doc(db, 'wallets', uid);
                 const walletSnap = await getDoc(walletRef);
                 if (walletSnap.exists()) {
@@ -2252,14 +2285,14 @@
                     activityBalance.textContent = formatCurrency(walletData.activityBalance || userData.activityBalance || 0);
                 }
 
-                // Load daily check
+                // Daily Check
                 const dailyRef = doc(db, 'dailyChecks', uid);
                 const dailySnap = await getDoc(dailyRef);
                 if (dailySnap.exists()) {
                     renderDailyCheck(dailySnap.data());
                 }
 
-                // Load investment plans
+                // Investment Plans
                 const plansQuery = query(
                     collection(db, 'investmentPlans'),
                     where('isActive', '==', true),
@@ -2272,7 +2305,7 @@
                 });
                 renderInvestmentPlans(plans);
 
-                // Load user's investments
+                // User Investments
                 const investmentsQuery = query(
                     collection(db, 'investments'),
                     where('userId', '==', uid),
@@ -2286,7 +2319,7 @@
                 });
                 renderMyInvestments(investments);
 
-                // Load transactions
+                // Transactions
                 const txQuery = query(
                     collection(db, 'transactions'),
                     where('userId', '==', uid),
@@ -2300,7 +2333,7 @@
                 });
                 renderTransactions(transactions);
 
-                // Load announcements
+                // Announcements
                 const annQuery = query(
                     collection(db, 'announcements'),
                     where('isActive', '==', true),
@@ -2314,7 +2347,7 @@
                 });
                 renderAnnouncements(announcements);
 
-                // Load notifications count
+                // Notifications
                 const notifQuery = query(
                     collection(db, 'notifications'),
                     where('userId', '==', uid),
@@ -2333,6 +2366,9 @@
                 // Load ad
                 await loadAd();
 
+                // Set up real-time listener for block status
+                listenToUserUpdates(uid);
+
                 showDashboard();
 
             } catch (error) {
@@ -2342,7 +2378,7 @@
         }
 
         // ============================================================
-        // AUTHENTICATION CHECK
+        // AUTHENTICATION
         // ============================================================
         onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -2366,7 +2402,12 @@
         });
 
         // ============================================================
-        // COPY REFERRAL CODE
+        // BLOCKED SCREEN LOGOUT
+        // ============================================================
+        document.getElementById('blocked-logout-btn').addEventListener('click', redirectToLoginBlocked);
+
+        // ============================================================
+        // COPY REFERRAL
         // ============================================================
         document.getElementById('copy-referral').addEventListener('click', () => {
             const code = referralCodeDisplay.textContent;
@@ -2419,22 +2460,16 @@
         });
 
         // ============================================================
-        // NOTIFICATIONS BUTTON
+        // NAVIGATION BUTTONS
         // ============================================================
         document.getElementById('notif-btn').addEventListener('click', () => {
             window.location.href = 'notifications.html';
         });
 
-        // ============================================================
-        // PROFILE BUTTON
-        // ============================================================
         document.getElementById('profile-btn').addEventListener('click', () => {
             window.location.href = 'profile.html';
         });
 
-        // ============================================================
-        // MENU BUTTON
-        // ============================================================
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'profile.html';
         });
@@ -2446,156 +2481,7 @@
             window.location.reload();
         });
 
-        // ============================================================
-        // REAL-TIME UPDATES
-        // ============================================================
-        function listenToUserUpdates(uid) {
-            const userRef = doc(db, 'users', uid);
-            return onSnapshot(userRef, (snap) => {
-                if (snap.exists()) {
-                    const data = snap.data();
-                    if (data.isBlocked === true) {
-                        showBlocked();
-                        return;
-                    }
-                    depositBalance.textContent = formatCurrency(data.depositBalance || 0);
-                    walletBalance.textContent = formatCurrency(data.walletBalance || 0);
-                    activityBalance.textContent = formatCurrency(data.activityBalance || 0);
-                    userName.textContent = data.fullName || 'User';
-                    referralCodeDisplay.textContent = data.referralCode || '——';
-                }
-            }, (error) => {
-                console.error('User listener error:', error);
-            });
-        }
-
-        // Override loadDashboardData to set up listener
-        const originalLoad = loadDashboardData;
-        loadDashboardData = async function(user) {
-            try {
-                const uid = user.uid;
-
-                const userRef = doc(db, 'users', uid);
-                const userSnap = await getDoc(userRef);
-
-                if (!userSnap.exists()) {
-                    showError('Account Not Found', 'Your account information could not be found. Please register or contact support.');
-                    return;
-                }
-
-                const userData = userSnap.data();
-
-                if (userData.isBlocked === true) {
-                    showBlocked();
-                    return;
-                }
-
-                renderUser(userData);
-
-                const walletRef = doc(db, 'wallets', uid);
-                const walletSnap = await getDoc(walletRef);
-                if (walletSnap.exists()) {
-                    const walletData = walletSnap.data();
-                    depositBalance.textContent = formatCurrency(walletData.depositBalance || userData.depositBalance || 0);
-                    walletBalance.textContent = formatCurrency(walletData.walletBalance || userData.walletBalance || 0);
-                    activityBalance.textContent = formatCurrency(walletData.activityBalance || userData.activityBalance || 0);
-                }
-
-                const dailyRef = doc(db, 'dailyChecks', uid);
-                const dailySnap = await getDoc(dailyRef);
-                if (dailySnap.exists()) {
-                    renderDailyCheck(dailySnap.data());
-                }
-
-                const plansQuery = query(
-                    collection(db, 'investmentPlans'),
-                    where('isActive', '==', true),
-                    limit(6)
-                );
-                const plansSnap = await getDocs(plansQuery);
-                const plans = [];
-                plansSnap.forEach(doc => {
-                    plans.push({ id: doc.id, ...doc.data() });
-                });
-                renderInvestmentPlans(plans);
-
-                const investmentsQuery = query(
-                    collection(db, 'investments'),
-                    where('userId', '==', uid),
-                    orderBy('createdAt', 'desc'),
-                    limit(5)
-                );
-                const investmentsSnap = await getDocs(investmentsQuery);
-                const investments = [];
-                investmentsSnap.forEach(doc => {
-                    investments.push({ id: doc.id, ...doc.data() });
-                });
-                renderMyInvestments(investments);
-
-                const txQuery = query(
-                    collection(db, 'transactions'),
-                    where('userId', '==', uid),
-                    orderBy('createdAt', 'desc'),
-                    limit(10)
-                );
-                const txSnap = await getDocs(txQuery);
-                const transactions = [];
-                txSnap.forEach(doc => {
-                    transactions.push({ id: doc.id, ...doc.data() });
-                });
-                renderTransactions(transactions);
-
-                const annQuery = query(
-                    collection(db, 'announcements'),
-                    where('isActive', '==', true),
-                    orderBy('createdAt', 'desc'),
-                    limit(3)
-                );
-                const annSnap = await getDocs(annQuery);
-                const announcements = [];
-                annSnap.forEach(doc => {
-                    announcements.push({ id: doc.id, ...doc.data() });
-                });
-                renderAnnouncements(announcements);
-
-                const notifQuery = query(
-                    collection(db, 'notifications'),
-                    where('userId', '==', uid),
-                    where('read', '==', false),
-                    limit(100)
-                );
-                const notifSnap = await getDocs(notifQuery);
-                const unreadCount = notifSnap.size;
-                if (unreadCount > 0) {
-                    notifBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-                    notifBadge.classList.remove('hidden');
-                } else {
-                    notifBadge.classList.add('hidden');
-                }
-
-                // Load ad
-                await loadAd();
-
-                listenToUserUpdates(uid);
-                showDashboard();
-
-            } catch (error) {
-                console.error('Load dashboard error:', error);
-                showError('Unable to Load Dashboard', 'Please check your connection and try again.');
-            }
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-            if (!mainDash.classList.contains('visible')) {
-                loadDashboardData(user);
-            }
-        });
-
-        console.log('PureOre Nexus — Dashboard ready.');
+        console.log('PureOre Nexus — Dashboard ready (with blocked redirect).');
     </script>
 
 </body>

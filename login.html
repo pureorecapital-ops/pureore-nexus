@@ -186,7 +186,8 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: url('https://i.ibb.co/cXxZh1w3/20260824-014737.jpg');
+            background-color: #0b0b0b;
+            background-image: url('https://images.unsplash.com/photo-1603386329225-868f9b1c6e4f?w=1200&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -400,114 +401,18 @@
             min-height: 1.2em;
         }
 
-        /* ===== COUNTRY SELECTOR ===== */
-        .country-selector-wrap {
-            position: relative;
-        }
-        .country-selector-wrap .form-control {
-            cursor: pointer;
-            padding-right: 40px;
-        }
-        .country-selector-wrap .form-control .flag {
-            font-size: 1.1rem;
-            margin-right: 8px;
-        }
-        .country-selector-wrap .form-control .code {
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-        .country-selector-wrap .chevron {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-            font-size: 0.6rem;
-        }
-
-        .country-dropdown {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            right: 0;
-            background: rgba(20, 20, 20, 0.98);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
-            max-height: 240px;
-            overflow-y: auto;
-            z-index: 50;
-            display: none;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            padding: 6px 0;
-        }
-        .country-dropdown.open {
-            display: block;
-        }
-        .country-dropdown .search-input {
-            width: 100%;
-            padding: 10px 14px;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-white);
-            font-size: 0.85rem;
-            font-family: inherit;
-            outline: none;
-            position: sticky;
-            top: 0;
-            background: rgba(20, 20, 20, 0.98);
-        }
-        .country-dropdown .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-        }
-        .country-dropdown .country-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            font-size: 0.85rem;
-        }
-        .country-dropdown .country-item:hover,
-        .country-dropdown .country-item.highlighted {
-            background: rgba(201, 168, 76, 0.08);
-        }
-        .country-dropdown .country-item .flag {
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        .country-dropdown .country-item .cname {
-            flex: 1;
-        }
-        .country-dropdown .country-item .ccode {
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-        .country-dropdown .no-results {
-            padding: 16px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        /* ===== OTP / PIN BOXES ===== */
-        .otp-container,
+        /* ===== PIN BOXES ===== */
         .pin-container {
             display: flex;
             gap: 8px;
             justify-content: center;
             margin: 6px 0 4px;
         }
-        .otp-container .otp-box,
         .pin-container .pin-box {
             width: 44px;
             height: 54px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 500;
             background: rgba(255, 255, 255, 0.04);
             border: 1.5px solid rgba(255, 255, 255, 0.08);
@@ -519,19 +424,13 @@
             -webkit-appearance: none;
             appearance: none;
         }
-        .otp-container .otp-box:focus,
         .pin-container .pin-box:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.08);
         }
-        .otp-container .otp-box.error,
         .pin-container .pin-box.error {
             border-color: #e74c3c;
             box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.08);
-        }
-        .pin-container .pin-box {
-            font-size: 1.6rem;
-            letter-spacing: 0.1em;
         }
         .pin-container .pin-box.hidden-pin {
             -webkit-text-security: disc;
@@ -559,37 +458,19 @@
             cursor: pointer;
         }
 
-        /* ===== OTP ACTIONS ===== */
-        .otp-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-        }
-        .otp-actions .action-link {
-            color: var(--text-muted);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.75rem;
-            transition: color 0.25s ease;
-            padding: 4px 0;
-            text-decoration: none;
-        }
-        .otp-actions .action-link:hover:not(:disabled) {
-            color: var(--gold);
-        }
-        .otp-actions .action-link:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .otp-actions .countdown {
-            color: var(--text-muted);
+        /* ===== FORGOT PASSWORD ===== */
+        .forgot-password-link {
+            display: inline-block;
+            margin-top: 4px;
             font-size: 0.7rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.25s ease;
+            font-weight: 400;
+        }
+        .forgot-password-link:hover {
+            color: var(--gold);
         }
 
         /* ===== BUTTONS ===== */
@@ -653,15 +534,14 @@
             box-shadow: 0 0 30px rgba(201, 168, 76, 0.04);
         }
 
-        .btn-outline-gold {
-            background: transparent;
-            color: var(--gold);
-            border: 1.5px solid var(--gold);
-            box-shadow: none;
+        .btn-success {
+            background: #27ae60;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(39, 174, 96, 0.1);
         }
-        .btn-outline-gold:hover:not(:disabled) {
-            background: rgba(201, 168, 76, 0.06);
-            box-shadow: 0 0 30px rgba(201, 168, 76, 0.06);
+        .btn-success:hover:not(:disabled) {
+            background: #2ecc71;
+            box-shadow: 0 0 40px rgba(39, 174, 96, 0.15);
         }
 
         .btn-danger {
@@ -737,7 +617,87 @@
             margin: 16px 0;
         }
 
-        /* ===== BOTTOM LINKS ===== */
+        /* ============================================================
+           FORGOT PASSWORD MODAL
+        ============================================================ */
+        .forgot-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(11, 11, 11, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+        .forgot-modal.open {
+            display: flex;
+        }
+        .forgot-modal .modal-box {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+        .forgot-modal .modal-box .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.25s ease;
+            line-height: 1;
+        }
+        .forgot-modal .modal-box .close-btn:hover {
+            color: var(--text-white);
+        }
+        .forgot-modal .modal-box h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .forgot-modal .modal-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .forgot-modal .modal-box .form-error {
+            margin-top: 8px;
+        }
+        .forgot-modal .modal-box .btn {
+            margin-top: 8px;
+        }
+        .forgot-modal .modal-box .success-msg {
+            text-align: center;
+            padding: 12px 0;
+        }
+        .forgot-modal .modal-box .success-msg .icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .forgot-modal .modal-box .success-msg h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .forgot-modal .modal-box .success-msg p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ============================================================
+           BOTTOM LINKS
+        ============================================================ */
         .bottom-links {
             text-align: center;
             margin-top: 18px;
@@ -819,13 +779,9 @@
             .login-header h2 {
                 font-size: 1.05rem;
             }
-            .otp-container .otp-box,
             .pin-container .pin-box {
                 width: 38px;
                 height: 46px;
-                font-size: 1.1rem;
-            }
-            .pin-container .pin-box {
                 font-size: 1.4rem;
             }
             .btn {
@@ -836,10 +792,6 @@
             .form-control {
                 padding: 12px 14px;
                 font-size: 0.9rem;
-            }
-            .country-dropdown .country-item {
-                padding: 8px 12px;
-                font-size: 0.8rem;
             }
             .step-indicators {
                 gap: 18px;
@@ -856,20 +808,18 @@
                 left: 12%;
                 right: 12%;
             }
+            .forgot-modal .modal-box {
+                padding: 24px 18px;
+            }
         }
 
         @media (max-width: 360px) {
-            .otp-container,
             .pin-container {
                 gap: 5px;
             }
-            .otp-container .otp-box,
             .pin-container .pin-box {
                 width: 32px;
                 height: 40px;
-                font-size: 1rem;
-            }
-            .pin-container .pin-box {
                 font-size: 1.2rem;
             }
             .login-card {
@@ -909,22 +859,9 @@
             border: 0;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        .flex-col {
-            display: flex;
-            flex-direction: column;
-        }
-        .items-center {
-            align-items: center;
-        }
-        .w-full {
-            width: 100%;
-        }
-
-        /* Account not found / blocked states */
+        /* ============================================================
+           STATUS BOX
+        ============================================================ */
         .status-box {
             padding: 16px;
             border-radius: var(--radius-sm);
@@ -934,6 +871,10 @@
         .status-box.error {
             background: rgba(231, 76, 60, 0.08);
             border: 1px solid rgba(231, 76, 60, 0.15);
+        }
+        .status-box.success {
+            background: rgba(39, 174, 96, 0.08);
+            border: 1px solid rgba(39, 174, 96, 0.15);
         }
         .status-box .status-icon {
             font-size: 2rem;
@@ -948,6 +889,54 @@
         .status-box .status-desc {
             font-size: 0.8rem;
             color: var(--text-muted);
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+        .success-screen .checkmark {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(39, 174, 96, 0.12);
+            border: 2px solid #27ae60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            animation: popIn 0.6s ease;
+        }
+        .success-screen .checkmark svg {
+            width: 32px;
+            height: 32px;
+            stroke: #27ae60;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .success-screen h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .success-screen p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -1005,86 +994,40 @@
                     <div class="step-line"></div>
                     <div class="step-dot active" data-step="1">
                         <span class="dot"></span>
-                        <span>Phone</span>
+                        <span>Login</span>
                     </div>
                     <div class="step-dot" data-step="2">
-                        <span class="dot"></span>
-                        <span>OTP</span>
-                    </div>
-                    <div class="step-dot" data-step="3">
                         <span class="dot"></span>
                         <span>PIN</span>
                     </div>
                 </div>
 
                 <!-- ============================================================
-                STEP 1 — PHONE NUMBER
+                STEP 1 — EMAIL & PASSWORD
                 ============================================================ -->
                 <div class="step active" id="step-1">
                     <div class="form-group">
-                        <label>Country</label>
-                        <div class="country-selector-wrap">
-                            <div class="form-control" id="country-display" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
-                                <span class="flag" id="selected-flag">🇿🇲</span>
-                                <span id="selected-name">Zambia</span>
-                                <span class="code" id="selected-code">+260</span>
-                                <span class="chevron">▾</span>
-                            </div>
-                            <div class="country-dropdown" id="country-dropdown" role="listbox">
-                                <input type="text" class="search-input" id="country-search" placeholder="Search country..." aria-label="Search countries" />
-                                <div id="country-list"></div>
-                            </div>
-                            <input type="hidden" id="country-code" value="+260" />
-                            <input type="hidden" id="country-iso" value="ZM" />
-                        </div>
+                        <label>Email Address</label>
+                        <input type="email" class="form-control" id="email-input" placeholder="you@example.com" autocomplete="email" />
+                        <div class="form-error" id="email-error"></div>
                     </div>
-
                     <div class="form-group">
-                        <label>Mobile Number</label>
-                        <input type="tel" class="form-control" id="phone-input" placeholder="e.g. 971234567" inputmode="numeric" autocomplete="tel-national" />
-                        <div class="form-error" id="phone-error"></div>
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="password-input" placeholder="Enter your password" autocomplete="current-password" />
+                        <div class="form-error" id="password-error"></div>
+                        <a class="forgot-password-link" id="forgot-password-link">Forgot Password?</a>
                     </div>
 
-                    <button class="btn mt-12" id="btn-send-otp">
+                    <button class="btn mt-12" id="btn-login">
                         <span class="spinner"></span>
-                        <span class="btn-text">Continue</span>
+                        <span class="btn-text">Sign In</span>
                     </button>
                 </div>
 
                 <!-- ============================================================
-                STEP 2 — OTP
+                STEP 2 — SECURITY PIN
                 ============================================================ -->
                 <div class="step" id="step-2">
-                    <div class="form-group">
-                        <label id="otp-label">Enter the 6-digit code</label>
-                        <div class="otp-container" id="otp-container">
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" aria-label="OTP digit 1" />
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 2" />
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 3" />
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 4" />
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 5" />
-                            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="OTP digit 6" />
-                        </div>
-                        <div class="form-error" id="otp-error"></div>
-                    </div>
-
-                    <div class="otp-actions">
-                        <button class="action-link" id="btn-change-number">Change phone number</button>
-                        <div>
-                            <button class="action-link" id="btn-resend-otp" disabled>Resend code in <span id="resend-countdown">60</span>s</button>
-                        </div>
-                    </div>
-
-                    <button class="btn mt-12" id="btn-verify-otp">
-                        <span class="spinner"></span>
-                        <span class="btn-text">Verify</span>
-                    </button>
-                </div>
-
-                <!-- ============================================================
-                STEP 3 — SECURITY PIN
-                ============================================================ -->
-                <div class="step" id="step-3">
                     <div class="form-group">
                         <label>Enter your security PIN</label>
                         <div class="pin-container" id="pin-container">
@@ -1123,6 +1066,35 @@
     </div>
 
     <!-- ============================================================
+    FORGOT PASSWORD MODAL
+    ============================================================ -->
+    <div class="forgot-modal" id="forgot-modal">
+        <div class="modal-box">
+            <button class="close-btn" id="forgot-modal-close" aria-label="Close">&times;</button>
+            <div id="forgot-content">
+                <h3>Reset Password</h3>
+                <p>Enter your email address and we'll send you a link to reset your password.</p>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="reset-email-input" placeholder="you@example.com" autocomplete="email" />
+                    <div class="form-error" id="reset-email-error"></div>
+                </div>
+                <button class="btn" id="btn-reset-password">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Send Reset Link</span>
+                </button>
+            </div>
+            <div id="forgot-success" style="display:none;">
+                <div class="success-msg">
+                    <span class="icon">📧</span>
+                    <h4>Check Your Email</h4>
+                    <p>We've sent a password reset link to your email address. Please check your inbox and follow the instructions.</p>
+                    <button class="btn btn-secondary mt-16" id="forgot-success-close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
     MODAL LOADING OVERLAY
     ============================================================ -->
     <div class="modal-overlay" id="modal-loading">
@@ -1141,8 +1113,8 @@
         import { initializeApp } from 'firebase/app';
         import {
             getAuth,
-            RecaptchaVerifier,
-            signInWithPhoneNumber,
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail,
             onAuthStateChanged
         } from 'firebase/auth';
         import {
@@ -1177,17 +1149,7 @@
         // STATE
         // ============================================================
         let currentStep = 1;
-        let phoneNumberFull = '';
-        let phoneLocal = '';
-        let selectedCountry = {
-            name: 'Zambia',
-            code: '+260',
-            iso: 'ZM',
-            flag: '🇿🇲'
-        };
         let isSubmitting = false;
-        let resendTimer = null;
-        let resendCountdown = 60;
         let authUser = null;
         let userDocData = null;
 
@@ -1204,79 +1166,24 @@
         const stepDesc = $('step-desc');
         const stepDots = document.querySelectorAll('.step-dot');
 
-        const countryDisplay = $('country-display');
-        const countryDropdown = $('country-dropdown');
-        const countrySearch = $('country-search');
-        const countryList = $('country-list');
-        const selectedFlag = $('selected-flag');
-        const selectedName = $('selected-name');
-        const selectedCode = $('selected-code');
-        const countryCodeHidden = $('country-code');
-        const countryIsoHidden = $('country-iso');
-
-        const phoneInput = $('phone-input');
-        const phoneError = $('phone-error');
-
-        const otpBoxes = document.querySelectorAll('#otp-container .otp-box');
-        const otpError = $('otp-error');
+        const emailInput = $('email-input');
+        const emailError = $('email-error');
+        const passwordInput = $('password-input');
+        const passwordError = $('password-error');
 
         const pinBoxes = document.querySelectorAll('#pin-container .pin-box');
         const pinError = $('pin-error');
         const pinShowToggle = $('pin-show-toggle');
 
+        const forgotModal = $('forgot-modal');
+        const forgotContent = $('forgot-content');
+        const forgotSuccess = $('forgot-success');
+        const resetEmailInput = $('reset-email-input');
+        const resetEmailError = $('reset-email-error');
+
         const modalOverlay = $('modal-loading');
         const modalMsg = $('modal-msg');
         const modalSub = $('modal-sub');
-
-        // ============================================================
-        // COUNTRY DATA
-        // ============================================================
-        const countries = [
-            { name: 'Zambia', code: '+260', iso: 'ZM', flag: '🇿🇲' },
-            { name: 'DRC', code: '+243', iso: 'CD', flag: '🇨🇩' },
-            { name: 'Ghana', code: '+233', iso: 'GH', flag: '🇬🇭' },
-            { name: 'Tanzania', code: '+255', iso: 'TZ', flag: '🇹🇿' },
-            { name: 'Zimbabwe', code: '+263', iso: 'ZW', flag: '🇿🇼' },
-            { name: 'South Africa', code: '+27', iso: 'ZA', flag: '🇿🇦' },
-            { name: 'Kenya', code: '+254', iso: 'KE', flag: '🇰🇪' },
-            { name: 'Nigeria', code: '+234', iso: 'NG', flag: '🇳🇬' },
-            { name: 'United Kingdom', code: '+44', iso: 'GB', flag: '🇬🇧' },
-            { name: 'United States', code: '+1', iso: 'US', flag: '🇺🇸' },
-            { name: 'Angola', code: '+244', iso: 'AO', flag: '🇦🇴' },
-            { name: 'Botswana', code: '+267', iso: 'BW', flag: '🇧🇼' },
-            { name: 'Egypt', code: '+20', iso: 'EG', flag: '🇪🇬' },
-            { name: 'Ethiopia', code: '+251', iso: 'ET', flag: '🇪🇹' },
-            { name: 'Germany', code: '+49', iso: 'DE', flag: '🇩🇪' },
-            { name: 'India', code: '+91', iso: 'IN', flag: '🇮🇳' },
-            { name: 'Italy', code: '+39', iso: 'IT', flag: '🇮🇹' },
-            { name: 'Japan', code: '+81', iso: 'JP', flag: '🇯🇵' },
-            { name: 'Mozambique', code: '+258', iso: 'MZ', flag: '🇲🇿' },
-            { name: 'Namibia', code: '+264', iso: 'NA', flag: '🇳🇦' },
-            { name: 'Netherlands', code: '+31', iso: 'NL', flag: '🇳🇱' },
-            { name: 'Portugal', code: '+351', iso: 'PT', flag: '🇵🇹' },
-            { name: 'Rwanda', code: '+250', iso: 'RW', flag: '🇷🇼' },
-            { name: 'Saudi Arabia', code: '+966', iso: 'SA', flag: '🇸🇦' },
-            { name: 'Spain', code: '+34', iso: 'ES', flag: '🇪🇸' },
-            { name: 'Sudan', code: '+249', iso: 'SD', flag: '🇸🇩' },
-            { name: 'Sweden', code: '+46', iso: 'SE', flag: '🇸🇪' },
-            { name: 'Uganda', code: '+256', iso: 'UG', flag: '🇺🇬' },
-            { name: 'UAE', code: '+971', iso: 'AE', flag: '🇦🇪' },
-            { name: 'Australia', code: '+61', iso: 'AU', flag: '🇦🇺' },
-            { name: 'Canada', code: '+1', iso: 'CA', flag: '🇨🇦' },
-            { name: 'France', code: '+33', iso: 'FR', flag: '🇫🇷' },
-            { name: 'Brazil', code: '+55', iso: 'BR', flag: '🇧🇷' },
-            { name: 'China', code: '+86', iso: 'CN', flag: '🇨🇳' },
-            { name: 'Mexico', code: '+52', iso: 'MX', flag: '🇲🇽' },
-            { name: 'Russia', code: '+7', iso: 'RU', flag: '🇷🇺' },
-            { name: 'Singapore', code: '+65', iso: 'SG', flag: '🇸🇬' },
-            { name: 'Malaysia', code: '+60', iso: 'MY', flag: '🇲🇾' },
-            { name: 'Philippines', code: '+63', iso: 'PH', flag: '🇵🇭' },
-            { name: 'Pakistan', code: '+92', iso: 'PK', flag: '🇵🇰' },
-            { name: 'Bangladesh', code: '+880', iso: 'BD', flag: '🇧🇩' },
-            { name: 'Sri Lanka', code: '+94', iso: 'LK', flag: '🇱🇰' },
-            { name: 'Nepal', code: '+977', iso: 'NP', flag: '🇳🇵' },
-        ];
-        countries.sort((a, b) => a.name.localeCompare(b.name));
 
         // ============================================================
         // LOADING SCREEN
@@ -1293,7 +1200,7 @@
                     loadScreen.classList.add('hidden');
                     mainLogin.classList.add('visible');
                     document.body.style.overflow = 'auto';
-                    setTimeout(() => phoneInput.focus(), 300);
+                    setTimeout(() => emailInput.focus(), 300);
                 }, 400);
                 return;
             }
@@ -1304,88 +1211,6 @@
         }, 40);
 
         // ============================================================
-        // COUNTRY SELECTOR
-        // ============================================================
-        function renderCountries(filter = '') {
-            const q = filter.toLowerCase().trim();
-            let filtered = countries;
-            if (q) {
-                filtered = countries.filter(c =>
-                    c.name.toLowerCase().includes(q) ||
-                    c.code.includes(q) ||
-                    c.iso.toLowerCase().includes(q)
-                );
-            }
-            if (filtered.length === 0) {
-                countryList.innerHTML = '<div class="no-results">No countries found</div>';
-                return;
-            }
-            countryList.innerHTML = filtered.map(c => `
-                    <div class="country-item" data-code="${c.code}" data-iso="${c.iso}" data-flag="${c.flag}" data-name="${c.name}" role="option">
-                        <span class="flag">${c.flag}</span>
-                        <span class="cname">${c.name}</span>
-                        <span class="ccode">${c.code}</span>
-                    </div>
-                `).join('');
-
-            countryList.querySelectorAll('.country-item').forEach(el => {
-                el.addEventListener('click', () => {
-                    selectCountry({
-                        name: el.dataset.name,
-                        code: el.dataset.code,
-                        iso: el.dataset.iso,
-                        flag: el.dataset.flag
-                    });
-                    countryDropdown.classList.remove('open');
-                    countryDisplay.setAttribute('aria-expanded', 'false');
-                });
-            });
-        }
-
-        function selectCountry(c) {
-            selectedCountry = c;
-            selectedFlag.textContent = c.flag;
-            selectedName.textContent = c.name;
-            selectedCode.textContent = c.code;
-            countryCodeHidden.value = c.code;
-            countryIsoHidden.value = c.iso;
-            const example = c.code === '+1' ? '5551234567' : '712345678';
-            phoneInput.placeholder = `e.g. ${example}`;
-            phoneError.textContent = '';
-            phoneInput.classList.remove('error');
-        }
-
-        countryDisplay.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const open = countryDropdown.classList.toggle('open');
-            countryDisplay.setAttribute('aria-expanded', open ? 'true' : 'false');
-            if (open) {
-                countrySearch.value = '';
-                renderCountries('');
-                setTimeout(() => countrySearch.focus(), 100);
-            }
-        });
-
-        countrySearch.addEventListener('input', () => {
-            renderCountries(countrySearch.value);
-        });
-
-        document.addEventListener('click', () => {
-            countryDropdown.classList.remove('open');
-            countryDisplay.setAttribute('aria-expanded', 'false');
-        });
-
-        countryDisplay.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                countryDisplay.click();
-            }
-        });
-
-        renderCountries('');
-        selectCountry(selectedCountry);
-
-        // ============================================================
         // STEP MANAGEMENT
         // ============================================================
         function goToStep(step) {
@@ -1394,7 +1219,6 @@
             const target = document.getElementById(`step-${step}`);
             if (target) target.classList.add('active');
 
-            // Update indicators
             stepDots.forEach((dot, idx) => {
                 const num = idx + 1;
                 dot.classList.remove('active', 'done');
@@ -1402,91 +1226,13 @@
                 else if (num < step) dot.classList.add('done');
             });
 
-            // Update header
-            const titles = ['Welcome Back', 'Verify Your Number', 'Enter Your Security PIN'];
-            const descs = [
-                'Sign in to your account',
-                'Enter the 6-digit code sent to your phone',
-                'Enter the security PIN you created during registration'
-            ];
+            const titles = ['Welcome Back', 'Enter Your Security PIN'];
+            const descs = ['Sign in to your account', 'Enter the security PIN you created during registration'];
             stepTitle.textContent = titles[step - 1] || 'Welcome Back';
             stepDesc.textContent = descs[step - 1] || '';
 
-            // Focus first input
             const firstInput = target?.querySelector('input:not([readonly])');
             if (firstInput) setTimeout(() => firstInput.focus(), 200);
-        }
-
-        // ============================================================
-        // PHONE VALIDATION
-        // ============================================================
-        function validatePhone() {
-            const local = phoneInput.value.replace(/\s/g, '');
-            if (!local) {
-                phoneError.textContent = 'Please enter your mobile number.';
-                phoneInput.classList.add('error');
-                return false;
-            }
-            if (!/^[0-9]{4,15}$/.test(local)) {
-                phoneError.textContent = 'Please enter a valid mobile number (4-15 digits).';
-                phoneInput.classList.add('error');
-                return false;
-            }
-            phoneError.textContent = '';
-            phoneInput.classList.remove('error');
-            phoneLocal = local;
-            phoneNumberFull = selectedCountry.code + local;
-            return true;
-        }
-
-        phoneInput.addEventListener('input', () => {
-            if (phoneError.textContent) validatePhone();
-        });
-
-        // ============================================================
-        // OTP BOX HANDLING
-        // ============================================================
-        function setupOtpBoxes() {
-            otpBoxes.forEach((box, idx) => {
-                box.addEventListener('input', () => {
-                    box.value = box.value.replace(/\D/g, '');
-                    if (box.value && idx < 5) otpBoxes[idx + 1].focus();
-                    const allFilled = Array.from(otpBoxes).every(b => b.value.length === 1);
-                    if (allFilled) verifyOtp();
-                });
-                box.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !box.value && idx > 0) otpBoxes[idx - 1].focus();
-                    if (e.key === 'ArrowLeft' && idx > 0) otpBoxes[idx - 1].focus();
-                    if (e.key === 'ArrowRight' && idx < 5) otpBoxes[idx + 1].focus();
-                });
-                box.addEventListener('paste', (e) => {
-                    e.preventDefault();
-                    const data = (e.clipboardData || window.clipboardData).getData('text');
-                    const digits = data.replace(/\D/g, '').slice(0, 6);
-                    if (!digits.length) return;
-                    for (let i = 0; i < Math.min(digits.length, 6); i++) otpBoxes[i].value = digits[i];
-                    const lastIdx = Math.min(digits.length, 6) - 1;
-                    otpBoxes[lastIdx].focus();
-                    const allFilled = Array.from(otpBoxes).every(b => b.value.length === 1);
-                    if (allFilled) verifyOtp();
-                });
-            });
-        }
-        setupOtpBoxes();
-
-        function getOtpCode() {
-            return Array.from(otpBoxes).map(b => b.value).join('');
-        }
-
-        function clearOtpError() {
-            otpError.textContent = '';
-            otpBoxes.forEach(b => b.classList.remove('error'));
-        }
-
-        function resetOtpBoxes() {
-            otpBoxes.forEach(b => b.value = '');
-            otpBoxes[0].focus();
-            clearOtpError();
         }
 
         // ============================================================
@@ -1532,33 +1278,6 @@
         });
 
         // ============================================================
-        // RECAPTCHA VERIFIER
-        // ============================================================
-        let recaptchaVerifier = null;
-
-        function setupRecaptcha() {
-            if (recaptchaVerifier) {
-                // Clear any existing verifier to avoid duplicate containers
-                try {
-                    recaptchaVerifier.clear();
-                } catch (e) { /* ignore */ }
-                recaptchaVerifier = null;
-            }
-            recaptchaVerifier = new RecaptchaVerifier(auth, 'btn-send-otp', {
-                size: 'invisible',
-                callback: () => {},
-                'expired-callback': () => {
-                    // Re-initialize if needed
-                    if (recaptchaVerifier) {
-                        try { recaptchaVerifier.clear(); } catch (e) {}
-                        recaptchaVerifier = null;
-                    }
-                }
-            });
-            return recaptchaVerifier;
-        }
-
-        // ============================================================
         // MODAL LOADING
         // ============================================================
         function showModal(msg, sub = '') {
@@ -1572,271 +1291,73 @@
         }
 
         // ============================================================
-        // RESEND COUNTDOWN
+        // STEP 1: LOGIN
         // ============================================================
-        function startResendTimer() {
-            resendCountdown = 60;
-            const btn = document.getElementById('btn-resend-otp');
-            const countdownEl = document.getElementById('resend-countdown');
-            btn.disabled = true;
-            btn.innerHTML = `Resend code in <span id="resend-countdown">60</span>s`;
-
-            if (resendTimer) clearInterval(resendTimer);
-            resendTimer = setInterval(() => {
-                resendCountdown--;
-                if (resendCountdown <= 0) {
-                    clearInterval(resendTimer);
-                    btn.disabled = false;
-                    btn.innerHTML = 'Resend code';
-                } else {
-                    btn.innerHTML = `Resend code in <span id="resend-countdown">${resendCountdown}</span>s`;
-                }
-            }, 1000);
-        }
-
-        // ============================================================
-        // STEP 1: SEND OTP
-        // ============================================================
-        document.getElementById('btn-send-otp').addEventListener('click', async () => {
+        document.getElementById('btn-login').addEventListener('click', async () => {
             if (isSubmitting) return;
-            if (!validatePhone()) return;
 
-            // Disable button immediately to prevent double-click
-            isSubmitting = true;
-            const btn = document.getElementById('btn-send-otp');
-            btn.classList.add('loading');
-            btn.disabled = true;
-            phoneInput.disabled = true;
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
 
-            try {
-                const verifier = setupRecaptcha();
-                showModal('Verifying your number...', 'Sending verification code');
-
-                const confirmationResult = await signInWithPhoneNumber(auth, phoneNumberFull, verifier);
-
-                // Store the confirmation result for OTP verification
-                window.confirmationResult = confirmationResult;
-
-                hideModal();
-
-                // Update OTP label with phone number
-                const displayPhone = `${selectedCountry.flag} ${selectedCountry.code} ${phoneLocal}`;
-                document.getElementById('otp-label').textContent =
-                    `Enter the 6-digit code sent to ${displayPhone}`;
-
-                // Move to OTP step
-                goToStep(2);
-                resetOtpBoxes();
-
-                // Start the 60-second countdown
-                startResendTimer();
-
-            } catch (error) {
-                hideModal();
-                console.error('Send OTP error:', error);
-
-                // Handle specific Firebase errors with user-friendly messages
-                let msg = 'Failed to send verification code. Please try again.';
-                if (error.code === 'auth/invalid-phone-number') {
-                    msg = 'Invalid phone number. Please check and try again.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    msg = 'Too many verification requests. Please wait a while before trying again.';
-                } else if (error.code === 'auth/network-request-failed') {
-                    msg = 'Network error. Please check your internet connection.';
-                } else if (error.code === 'auth/quota-exceeded') {
-                    msg = 'SMS quota exceeded. Please try again later.';
-                }
-
-                phoneError.textContent = msg;
-                phoneInput.classList.add('error');
-
-                // Reset reCAPTCHA
-                if (recaptchaVerifier) {
-                    try { recaptchaVerifier.clear(); } catch (e) {}
-                    recaptchaVerifier = null;
-                }
-            } finally {
-                isSubmitting = false;
-                btn.classList.remove('loading');
-                btn.disabled = false;
-                phoneInput.disabled = false;
-            }
-        });
-
-        // ============================================================
-        // STEP 2: VERIFY OTP
-        // ============================================================
-        async function verifyOtp() {
-            if (isSubmitting) return;
-            const code = getOtpCode();
-            if (code.length !== 6) {
-                otpError.textContent = 'Please enter all 6 digits.';
-                otpBoxes.forEach(b => b.classList.add('error'));
+            if (!email) {
+                emailError.textContent = 'Please enter your email address.';
+                emailInput.classList.add('error');
                 return;
             }
-            if (!window.confirmationResult) {
-                otpError.textContent = 'Verification session expired. Please request a new code.';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                emailInput.classList.add('error');
+                return;
+            }
+            if (!password || password.length < 6) {
+                passwordError.textContent = 'Please enter your password (min. 6 characters).';
+                passwordInput.classList.add('error');
                 return;
             }
 
+            emailError.textContent = '';
+            emailInput.classList.remove('error');
+            passwordError.textContent = '';
+            passwordInput.classList.remove('error');
+
             isSubmitting = true;
-            const btn = document.getElementById('btn-verify-otp');
+            const btn = document.getElementById('btn-login');
             btn.classList.add('loading');
             btn.disabled = true;
-            clearOtpError();
 
             try {
-                showModal('Verifying your code...', 'Please wait');
-
-                const result = await window.confirmationResult.confirm(code);
-                authUser = result.user;
-
+                showModal('Signing in...', 'Please wait');
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                authUser = userCredential.user;
                 hideModal();
 
-                // Check if user exists in Firestore
                 await checkUserAndProceed(authUser);
 
             } catch (error) {
                 hideModal();
-                console.error('OTP verify error:', error);
+                console.error('Login error:', error);
 
-                let msg = 'Invalid verification code. Please check the code and try again.';
-                if (error.code === 'auth/invalid-verification-code') {
-                    msg = 'Invalid verification code. Please check the code and try again.';
+                let msg = 'Invalid email or password. Please try again.';
+                if (error.code === 'auth/user-not-found') {
+                    msg = 'No account found with this email. Please create an account first.';
+                } else if (error.code === 'auth/wrong-password') {
+                    msg = 'Incorrect password. Please try again.';
                 } else if (error.code === 'auth/too-many-requests') {
-                    msg = 'Too many verification attempts. Please wait a while before requesting another code.';
+                    msg = 'Too many failed attempts. Please try again later.';
                 } else if (error.code === 'auth/network-request-failed') {
                     msg = 'Network error. Please check your internet connection.';
-                } else if (error.code === 'auth/session-expired') {
-                    msg = 'This verification code has expired. Please request a new code.';
-                } else if (error.code === 'auth/verification-code-expired') {
-                    msg = 'This verification code has expired. Please request a new code.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'Invalid email address.';
                 }
 
-                otpError.textContent = msg;
-                otpBoxes.forEach(b => b.classList.add('error'));
-                otpBoxes.forEach(b => b.value = '');
-                otpBoxes[0].focus();
-
-                // If the code expired, allow resend immediately
-                if (error.code === 'auth/session-expired' || error.code === 'auth/verification-code-expired') {
-                    // Reset the confirmation result so the user can request a new code
-                    window.confirmationResult = null;
-                    // Enable resend button if countdown is done, or reset countdown
-                    const resendBtn = document.getElementById('btn-resend-otp');
-                    if (resendBtn.disabled) {
-                        // Force reset countdown
-                        if (resendTimer) clearInterval(resendTimer);
-                        resendBtn.disabled = false;
-                        resendBtn.innerHTML = 'Resend code';
-                    }
-                }
+                emailError.textContent = msg;
+                emailInput.classList.add('error');
+                passwordInput.classList.add('error');
             } finally {
                 isSubmitting = false;
                 btn.classList.remove('loading');
                 btn.disabled = false;
             }
-        }
-
-        document.getElementById('btn-verify-otp').addEventListener('click', verifyOtp);
-
-        // ============================================================
-        // RESEND OTP
-        // ============================================================
-        document.getElementById('btn-resend-otp').addEventListener('click', async () => {
-            if (isSubmitting) return;
-            if (!phoneNumberFull) {
-                otpError.textContent = 'Please go back and enter your number.';
-                return;
-            }
-
-            // Reset reCAPTCHA
-            if (recaptchaVerifier) {
-                try { recaptchaVerifier.clear(); } catch (e) {}
-                recaptchaVerifier = null;
-            }
-
-            isSubmitting = true;
-            const btn = document.getElementById('btn-resend-otp');
-            btn.disabled = true;
-            btn.innerHTML = 'Sending...';
-
-            try {
-                const verifier = setupRecaptcha();
-                showModal('Sending new code...', 'Please wait');
-
-                const confirmationResult = await signInWithPhoneNumber(auth, phoneNumberFull, verifier);
-                window.confirmationResult = confirmationResult;
-
-                hideModal();
-                resetOtpBoxes();
-                startResendTimer();
-
-            } catch (error) {
-                hideModal();
-                console.error('Resend error:', error);
-
-                let msg = 'Failed to resend code. Please try again.';
-                if (error.code === 'auth/too-many-requests') {
-                    msg = 'Too many verification requests. Please wait a while before trying again.';
-                } else if (error.code === 'auth/network-request-failed') {
-                    msg = 'Network error. Please check your internet connection.';
-                } else if (error.code === 'auth/quota-exceeded') {
-                    msg = 'SMS quota exceeded. Please try again later.';
-                }
-
-                otpError.textContent = msg;
-
-                if (recaptchaVerifier) {
-                    try { recaptchaVerifier.clear(); } catch (e) {}
-                    recaptchaVerifier = null;
-                }
-
-                // Re-enable the resend button with the remaining countdown
-                if (resendCountdown > 0) {
-                    btn.disabled = true;
-                    btn.innerHTML = `Resend code in <span id="resend-countdown">${resendCountdown}</span>s`;
-                } else {
-                    btn.disabled = false;
-                    btn.innerHTML = 'Resend code';
-                }
-            } finally {
-                isSubmitting = false;
-            }
-        });
-
-        // ============================================================
-        // CHANGE NUMBER
-        // ============================================================
-        document.getElementById('btn-change-number').addEventListener('click', () => {
-            // Cancel current OTP session
-            window.confirmationResult = null;
-
-            // Clear OTP inputs
-            resetOtpBoxes();
-
-            // Stop resend timer
-            if (resendTimer) {
-                clearInterval(resendTimer);
-                resendTimer = null;
-            }
-
-            // Reset resend button
-            const resendBtn = document.getElementById('btn-resend-otp');
-            resendBtn.disabled = true;
-            resendBtn.innerHTML = 'Resend code in <span id="resend-countdown">60</span>s';
-
-            // Reset reCAPTCHA
-            if (recaptchaVerifier) {
-                try { recaptchaVerifier.clear(); } catch (e) {}
-                recaptchaVerifier = null;
-            }
-
-            // Go back to phone step
-            goToStep(1);
-            phoneInput.focus();
-            phoneInput.classList.remove('error');
-            phoneError.textContent = '';
         });
 
         // ============================================================
@@ -1879,7 +1400,7 @@
                 hideModal();
 
                 // Move to PIN step
-                goToStep(3);
+                goToStep(2);
                 pinBoxes[0].focus();
 
             } catch (error) {
@@ -1901,11 +1422,9 @@
         function showStatusMessage(type, title, desc, linkHref, linkText) {
             const step1 = document.getElementById('step-1');
             const step2 = document.getElementById('step-2');
-            const step3 = document.getElementById('step-3');
 
             step1.classList.remove('active');
             step2.classList.remove('active');
-            step3.classList.remove('active');
 
             const icon = type === 'account-not-found' ? '📋' :
                 type === 'account-blocked' ? '🔒' : '⚠️';
@@ -1935,7 +1454,7 @@
         }
 
         // ============================================================
-        // STEP 3: VERIFY PIN (via Cloud Function)
+        // STEP 2: VERIFY PIN
         // ============================================================
         async function verifyPin() {
             if (isSubmitting) return;
@@ -2016,37 +1535,107 @@
         // SUCCESS & REDIRECT
         // ============================================================
         function showSuccessAndRedirect() {
-            const step3 = document.getElementById('step-3');
-            step3.innerHTML = `
-                    <div class="success-screen" style="text-align:center;padding:16px 0 8px;">
-                        <div style="width:64px;height:64px;border-radius:50%;background:rgba(39,174,96,0.12);border:2px solid #27ae60;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:popIn 0.6s ease;">
-                            <svg width="32" height="32" viewBox="0 0 24 24" stroke="#27ae60" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12" />
+            const step2 = document.getElementById('step-2');
+            step2.innerHTML = `
+                    <div class="success-screen">
+                        <div class="checkmark">
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <h2 style="font-size:1.3rem;font-weight:600;margin-bottom:4px;">Welcome Back</h2>
-                        <p style="color:var(--text-muted);font-size:0.9rem;">Preparing your dashboard...</p>
+                        <h2>Welcome Back</h2>
+                        <p>Redirecting to your dashboard...</p>
                     </div>
                 `;
-            step3.style.textAlign = 'center';
-
-            if (!document.querySelector('#pop-in-style')) {
-                const style = document.createElement('style');
-                style.id = 'pop-in-style';
-                style.textContent = `
-                        @keyframes popIn {
-                            0% { transform: scale(0); opacity: 0; }
-                            70% { transform: scale(1.1); }
-                            100% { transform: scale(1); opacity: 1; }
-                        }
-                    `;
-                document.head.appendChild(style);
-            }
+            step2.style.textAlign = 'center';
 
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
-            }, 2500);
+            }, 2000);
         }
+
+        // ============================================================
+        // FORGOT PASSWORD
+        // ============================================================
+        document.getElementById('forgot-password-link').addEventListener('click', () => {
+            forgotModal.classList.add('open');
+            resetEmailInput.value = emailInput.value || '';
+            resetEmailError.textContent = '';
+            resetEmailInput.classList.remove('error');
+            forgotContent.style.display = 'block';
+            forgotSuccess.style.display = 'none';
+            setTimeout(() => resetEmailInput.focus(), 200);
+            document.body.style.overflow = 'hidden';
+        });
+
+        document.getElementById('forgot-modal-close').addEventListener('click', () => {
+            forgotModal.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+
+        document.getElementById('forgot-success-close').addEventListener('click', () => {
+            forgotModal.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+
+        forgotModal.addEventListener('click', (e) => {
+            if (e.target === forgotModal) {
+                forgotModal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.getElementById('btn-reset-password').addEventListener('click', async () => {
+            if (isSubmitting) return;
+            const email = resetEmailInput.value.trim();
+
+            if (!email) {
+                resetEmailError.textContent = 'Please enter your email address.';
+                resetEmailInput.classList.add('error');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                resetEmailError.textContent = 'Please enter a valid email address.';
+                resetEmailInput.classList.add('error');
+                return;
+            }
+
+            resetEmailError.textContent = '';
+            resetEmailInput.classList.remove('error');
+
+            isSubmitting = true;
+            const btn = document.getElementById('btn-reset-password');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                await sendPasswordResetEmail(auth, email, {
+                    url: window.location.href,
+                    handleCodeInApp: false
+                });
+
+                // Show success
+                forgotContent.style.display = 'none';
+                forgotSuccess.style.display = 'block';
+
+            } catch (error) {
+                console.error('Password reset error:', error);
+                let msg = 'Failed to send reset email. Please try again.';
+                if (error.code === 'auth/user-not-found') {
+                    msg = 'No account found with this email address.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = 'Too many requests. Please try again later.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    msg = 'Network error. Please check your internet connection.';
+                }
+                resetEmailError.textContent = msg;
+                resetEmailInput.classList.add('error');
+            } finally {
+                isSubmitting = false;
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
 
         // ============================================================
         // KEYBOARD ENTER SUPPORT
@@ -2054,11 +1643,15 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const active = document.activeElement;
-                if (currentStep === 1 && (active === phoneInput || active === countryDisplay)) {
-                    document.getElementById('btn-send-otp').click();
-                } else if (currentStep === 2 && active?.classList.contains('otp-box')) {
-                    document.getElementById('btn-verify-otp').click();
-                } else if (currentStep === 3 && active?.classList.contains('pin-box')) {
+                if (forgotModal.classList.contains('open')) {
+                    if (active === resetEmailInput) {
+                        document.getElementById('btn-reset-password').click();
+                    }
+                    return;
+                }
+                if (currentStep === 1 && (active === emailInput || active === passwordInput)) {
+                    document.getElementById('btn-login').click();
+                } else if (currentStep === 2 && active?.classList.contains('pin-box')) {
                     document.getElementById('btn-verify-pin').click();
                 }
             }
@@ -2083,47 +1676,7 @@
         // START
         // ============================================================
         goToStep(1);
-        console.log('PureOre Nexus — Login ready.');
-
-        // ============================================================
-        // CLOUD FUNCTION REFERENCE
-        // ============================================================
-        /*
-         * Firebase Cloud Function — verifyPin
-         * Deploy with: firebase deploy --only functions
-         *
-         * const functions = require('firebase-functions');
-         * const admin = require('firebase-admin');
-         * const bcrypt = require('bcrypt');
-         *
-         * admin.initializeApp();
-         *
-         * exports.verifyPin = functions.https.onCall(async (data, context) => {
-         *   const { uid, pin } = data;
-         *   if (!uid || !pin) throw new functions.https.HttpsError('invalid-argument', 'Missing uid or pin');
-         *   if (pin.length !== 6 || !/^[0-9]{6}$/.test(pin)) {
-         *     throw new functions.https.HttpsError('invalid-argument', 'PIN must be 6 digits');
-         *   }
-         *
-         *   const userRef = admin.firestore().collection('users').doc(uid);
-         *   const userSnap = await userRef.get();
-         *   if (!userSnap.exists) throw new functions.https.HttpsError('not-found', 'Account not found');
-         *
-         *   const userData = userSnap.data();
-         *   if (userData.isBlocked === true) {
-         *     throw new functions.https.HttpsError('permission-denied', 'Account is blocked');
-         *   }
-         *
-         *   const pinHash = userData.pinHash || null;
-         *   if (!pinHash) throw new functions.https.HttpsError('failed-precondition', 'PIN not set');
-         *
-         *   const isValid = await bcrypt.compare(pin, pinHash);
-         *   if (!isValid) throw new functions.https.HttpsError('permission-denied', 'PIN verification failed');
-         *
-         *   await userRef.update({ lastLogin: admin.firestore.FieldValue.serverTimestamp() });
-         *   return { success: true };
-         * });
-         */
+        console.log('PureOre Nexus — Login ready (Email/Password + PIN).');
     </script>
 
 </body>

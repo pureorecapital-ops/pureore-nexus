@@ -329,6 +329,11 @@
             margin-top: 4px;
             min-height: 1.2em;
         }
+        .form-note {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
 
         /* ===== PIN BOXES ===== */
         .pin-container {
@@ -759,7 +764,7 @@
                         <span>Pure<em>Ore</em> Nexus</span>
                     </div>
                     <h2 id="step-title">Create your account</h2>
-                    <div class="step-indicator" id="step-indicator">Step 1 of 5</div>
+                    <div class="step-indicator" id="step-indicator">Step 1 of 6</div>
                     <div class="sub-desc" id="step-desc">Start with your email and password</div>
                 </div>
 
@@ -842,8 +847,22 @@
                     </button>
                 </div>
 
-                <!-- ===== STEP 5 — CONFIRM & CREATE ===== -->
+                <!-- ===== STEP 5 — REFERRAL CODE (optional) ===== -->
                 <div class="step" id="step-5">
+                    <div class="form-group">
+                        <label>Referral Code (optional)</label>
+                        <input type="text" class="form-control" id="referral-input" placeholder="Enter referral code if you have one" autocomplete="off" style="text-transform:uppercase;" />
+                        <div class="form-error" id="referral-error"></div>
+                        <div class="form-note">If you were referred by someone, enter their code here.</div>
+                    </div>
+                    <button class="btn mt-12" id="btn-referral-continue">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Continue</span>
+                    </button>
+                </div>
+
+                <!-- ===== STEP 6 — CONFIRM & CREATE ===== -->
+                <div class="step" id="step-6">
                     <div style="text-align:center;margin-bottom:12px;">
                         <div style="font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">You're ready to join</div>
                         <div style="font-size:1.1rem;font-weight:600;margin-top:2px;">PureOre Nexus</div>
@@ -856,6 +875,10 @@
                     <div class="confirm-item">
                         <span class="label">Full Name</span>
                         <span class="value" id="confirm-name">—</span>
+                    </div>
+                    <div class="confirm-item">
+                        <span class="label">Referral Code</span>
+                        <span class="value" id="confirm-referral">None</span>
                     </div>
 
                     <div class="divider"></div>
@@ -897,7 +920,7 @@
     </div>
 
     <!-- ============================================================
-    FIREBASE + APPLICATION LOGIC (Email/Password)
+    FIREBASE + APPLICATION LOGIC (Email/Password + Referral)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -915,7 +938,11 @@
             setDoc,
             getDoc,
             runTransaction,
-            serverTimestamp
+            serverTimestamp,
+            query,
+            collection,
+            where,
+            getDocs
         } from 'firebase/firestore';
         import { getFunctions } from 'firebase/functions';
 
@@ -946,6 +973,7 @@
         let createdPin = '';
         let userEmail = '';
         let userPassword = '';
+        let userReferral = ''; // referral code entered (empty if none)
 
         // ============================================================
         // DOM REFS
@@ -976,8 +1004,12 @@
         const pinConfirmError = $('pin-confirm-error');
         const pinConfirmShowToggle = $('pin-confirm-show-toggle');
 
+        const referralInput = $('referral-input');
+        const referralError = $('referral-error');
+
         const confirmEmail = $('confirm-email');
         const confirmName = $('confirm-name');
+        const confirmReferral = $('confirm-referral');
         const termsCheck = $('terms-check');
         const privacyCheck = $('privacy-check');
         const agreeError = $('agree-error');
@@ -1018,6 +1050,7 @@
             'What\'s your full name?',
             'Create your security PIN',
             'Confirm your security PIN',
+            'Referral Code (optional)',
             'You\'re ready to join PureOre Nexus'
         ];
         const stepDescs = [
@@ -1025,6 +1058,7 @@
             'Tell us your full name',
             'Create a 6-digit PIN to protect your account',
             'Enter your PIN again to confirm',
+            'Enter a referral code if you have one',
             'Review your details and create your account'
         ];
 
@@ -1035,7 +1069,7 @@
             if (target) target.classList.add('active');
 
             stepTitle.textContent = stepTitles[step - 1] || 'Create your account';
-            stepIndicator.textContent = `Step ${step} of 5`;
+            stepIndicator.textContent = `Step ${step} of 6`;
             stepDesc.textContent = stepDescs[step - 1] || '';
 
             const firstInput = target?.querySelector('input:not([readonly])');
@@ -1296,17 +1330,74 @@
             pinConfirmError.textContent = '';
             pinConfirmBoxes.forEach(b => b.classList.remove('error'));
 
+            // Pre-fill confirmation data (referral will be added later)
             confirmEmail.textContent = userEmail;
             confirmName.textContent = fullnameInput.value.trim();
+            confirmReferral.textContent = 'None';
 
             goToStep(5);
-            termsCheck.checked = false;
-            privacyCheck.checked = false;
-            agreeError.textContent = '';
+            referralInput.focus();
         });
 
         // ============================================================
-        // STEP 5: Create Firestore Account
+        // STEP 5: Referral Code (optional)
+        // ============================================================
+        document.getElementById('btn-referral-continue').addEventListener('click', async () => {
+            const ref = referralInput.value.trim().toUpperCase();
+            referralError.textContent = '';
+            referralInput.classList.remove('error');
+
+            // If empty, skip
+            if (!ref) {
+                userReferral = '';
+                confirmReferral.textContent = 'None';
+                goToStep(6);
+                termsCheck.checked = false;
+                privacyCheck.checked = false;
+                agreeError.textContent = '';
+                return;
+            }
+
+            // Validate format
+            if (!/^[A-Z0-9]{4,12}$/.test(ref)) {
+                referralError.textContent = 'Referral code must be 4-12 alphanumeric characters.';
+                referralInput.classList.add('error');
+                return;
+            }
+
+            // Check existence in Firestore (optional, but nice)
+            try {
+                showModal('Validating referral code...', 'Please wait');
+                const usersRef = collection(db, 'users');
+                const q = query(usersRef, where('referralCode', '==', ref));
+                const querySnap = await getDocs(q);
+
+                if (querySnap.empty) {
+                    hideModal();
+                    referralError.textContent = 'Referral code not found. Please check and try again.';
+                    referralInput.classList.add('error');
+                    return;
+                }
+
+                // Code exists
+                userReferral = ref;
+                confirmReferral.textContent = ref;
+                hideModal();
+                goToStep(6);
+                termsCheck.checked = false;
+                privacyCheck.checked = false;
+                agreeError.textContent = '';
+
+            } catch (error) {
+                hideModal();
+                console.error('Referral validation error:', error);
+                referralError.textContent = 'Unable to validate referral code. Please try again.';
+                referralInput.classList.add('error');
+            }
+        });
+
+        // ============================================================
+        // STEP 6: Create Firestore Account
         // ============================================================
         document.getElementById('btn-create-account').addEventListener('click', async () => {
             if (isSubmitting) return;
@@ -1352,7 +1443,7 @@
                         fullName: name,
                         email: userEmail,
                         referralCode: userRefCode,
-                        referredBy: '',
+                        referredBy: userReferral || '', // store referral if provided
                         depositBalance: 0,
                         walletBalance: 0,
                         activityBalance: 0,
@@ -1387,6 +1478,20 @@
                         updatedAt: serverTimestamp()
                     };
                     transaction.set(dailyRef, dailyData);
+
+                    // If referral was provided, we can also create a referral record (optional)
+                    if (userReferral) {
+                        const referralRef = doc(db, 'referrals', uid);
+                        const referralData = {
+                            userId: uid,
+                            referredBy: userReferral,
+                            referrerId: '', // will be filled later if we track referrer UID
+                            referralCode: userReferral,
+                            timestamp: serverTimestamp(),
+                            status: 'pending'
+                        };
+                        transaction.set(referralRef, referralData);
+                    }
                 });
 
                 hideModal();
@@ -1430,8 +1535,8 @@
         // SUCCESS SCREEN
         // ============================================================
         function showSuccessAndRedirect() {
-            const step5 = document.getElementById('step-5');
-            step5.innerHTML = `
+            const step6 = document.getElementById('step-6');
+            step6.innerHTML = `
                 <div class="success-screen">
                     <div class="checkmark">
                         <svg viewBox="0 0 24 24">
@@ -1443,7 +1548,7 @@
                     <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Redirecting to your dashboard...</div>
                 </div>
             `;
-            step5.style.textAlign = 'center';
+            step6.style.textAlign = 'center';
 
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
@@ -1479,6 +1584,8 @@
                     document.getElementById('btn-pin-continue').click();
                 } else if (currentStep === 4 && active?.classList.contains('pin-box')) {
                     document.getElementById('btn-pin-confirm').click();
+                } else if (currentStep === 5 && active === referralInput) {
+                    document.getElementById('btn-referral-continue').click();
                 }
             }
         });
@@ -1499,7 +1606,7 @@
         // START
         // ============================================================
         goToStep(1);
-        console.log('PureOre Nexus — Registration ready (Email/Password).');
+        console.log('PureOre Nexus — Registration ready (Email/Password + Referral).');
     </script>
 
 </body>
