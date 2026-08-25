@@ -18,9 +18,7 @@
     </script>
 
     <style>
-        /* ============================================================
-           RESET & BASE (same as before)
-        ============================================================ */
+        /* ===== RESET & BASE ===== */
         *,
         *::before,
         *::after {
@@ -102,7 +100,9 @@
             animation: spin 2s linear infinite;
         }
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
         .load-logo-symbol svg {
             width: 30px;
@@ -292,11 +292,6 @@
             color: var(--text-muted);
             margin-bottom: 5px;
         }
-        .form-group .label-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
         .form-control {
             width: 100%;
@@ -482,14 +477,24 @@
             box-shadow: 0 0 50px rgba(39, 174, 96, 0.2);
         }
 
-        .mt-12 { margin-top: 12px; }
-        .mt-16 { margin-top: 16px; }
-        .mt-20 { margin-top: 20px; }
-        .text-center { text-align: center; }
-        .text-muted { color: var(--text-muted); }
-        .text-gold { color: var(--gold); }
-        .text-sm { font-size: 0.75rem; }
-        .text-xs { font-size: 0.65rem; }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mt-16 {
+            margin-top: 16px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-muted);
+        }
+        .text-gold {
+            color: var(--gold);
+        }
+        .text-sm {
+            font-size: 0.75rem;
+        }
         .divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
@@ -505,8 +510,14 @@
             display: block;
         }
         @keyframes fadeSlide {
-            0% { opacity: 0; transform: translateY(12px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ===== SUCCESS SCREEN ===== */
@@ -536,9 +547,17 @@
             stroke-linejoin: round;
         }
         @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            70% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
         .success-screen h2 {
             font-size: 1.4rem;
@@ -610,31 +629,77 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 420px) {
-            .reg-card { padding: 20px 14px 24px; border-radius: 14px; }
-            .reg-header h2 { font-size: 1.05rem; }
-            .pin-container .pin-box { width: 38px; height: 46px; font-size: 1.4rem; }
-            .btn { font-size: 0.7rem; min-height: 48px; padding: 12px 16px; }
-            .form-control { padding: 12px 14px; font-size: 0.9rem; }
-            .confirm-item { font-size: 0.75rem; padding: 8px 0; }
+            .reg-card {
+                padding: 20px 14px 24px;
+                border-radius: 14px;
+            }
+            .reg-header h2 {
+                font-size: 1.05rem;
+            }
+            .pin-container .pin-box {
+                width: 38px;
+                height: 46px;
+                font-size: 1.4rem;
+            }
+            .btn {
+                font-size: 0.7rem;
+                min-height: 48px;
+                padding: 12px 16px;
+            }
+            .form-control {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+            .confirm-item {
+                font-size: 0.75rem;
+                padding: 8px 0;
+            }
         }
+
         @media (max-width: 360px) {
-            .pin-container { gap: 5px; }
-            .pin-container .pin-box { width: 32px; height: 40px; font-size: 1.2rem; }
-            .reg-card { padding: 16px 10px 20px; }
+            .pin-container {
+                gap: 5px;
+            }
+            .pin-container .pin-box {
+                width: 32px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .reg-card {
+                padding: 16px 10px 20px;
+            }
         }
+
         @media (min-height: 800px) {
-            .register-scroll { padding: 40px 16px 120px; }
-            .reg-card { padding: 36px 28px 40px; }
+            .register-scroll {
+                padding: 40px 16px 120px;
+            }
+            .reg-card {
+                padding: 36px 28px 40px;
+            }
         }
 
         /* ===== SCROLLBAR ===== */
-        #main-register::-webkit-scrollbar { width: 3px; }
-        #main-register::-webkit-scrollbar-track { background: transparent; }
-        #main-register::-webkit-scrollbar-thumb { background: rgba(201, 168, 76, 0.2); border-radius: 10px; }
+        #main-register::-webkit-scrollbar {
+            width: 3px;
+        }
+        #main-register::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #main-register::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, 0.2);
+            border-radius: 10px;
+        }
 
         .sr-only {
-            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-            overflow: hidden; clip: rect(0,0,0,0); border: 0;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
         .login-link-bottom {
             text-align: center;
@@ -647,7 +712,9 @@
             text-decoration: none;
             font-weight: 500;
         }
-        .login-link-bottom a:hover { text-decoration: underline; }
+        .login-link-bottom a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -840,7 +907,6 @@
         import {
             getAuth,
             createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
             onAuthStateChanged
         } from 'firebase/auth';
         import {
@@ -1098,6 +1164,7 @@
             modalSub.textContent = sub;
             modalOverlay.classList.add('open');
         }
+
         function hideModal() {
             modalOverlay.classList.remove('open');
         }
@@ -1117,12 +1184,8 @@
             try {
                 showModal('Creating your account...', 'Please wait');
 
-                // Create user with email & password
                 const userCredential = await createUserWithEmailAndPassword(auth, userEmail, userPassword);
                 authUser = userCredential.user;
-
-                // Optionally send email verification
-                // await sendEmailVerification(authUser);
 
                 hideModal();
                 goToStep(2);
@@ -1140,10 +1203,13 @@
                         msg = 'Invalid email address.';
                         break;
                     case 'auth/operation-not-allowed':
-                        msg = 'Email/password sign-up is not enabled. Please contact support.';
+                        msg = 'Email/password sign-up is not enabled. Please enable it in Firebase Console.';
                         break;
                     case 'auth/weak-password':
                         msg = 'Password is too weak. Use at least 6 characters.';
+                        break;
+                    case 'auth/network-request-failed':
+                        msg = 'Network error. Check your internet connection and ensure Firebase is properly configured.';
                         break;
                     default:
                         msg = error.message || 'Unknown error';
@@ -1230,7 +1296,6 @@
             pinConfirmError.textContent = '';
             pinConfirmBoxes.forEach(b => b.classList.remove('error'));
 
-            // Populate confirm data
             confirmEmail.textContent = userEmail;
             confirmName.textContent = fullnameInput.value.trim();
 
@@ -1252,7 +1317,6 @@
             }
             agreeError.textContent = '';
 
-            // Ensure user is still authenticated
             if (!authUser) {
                 authUser = auth.currentUser;
                 if (!authUser) {
@@ -1280,7 +1344,6 @@
                     return;
                 }
 
-                // Generate referral code
                 const userRefCode = generateReferralCode(name);
 
                 await runTransaction(db, async (transaction) => {
@@ -1334,7 +1397,7 @@
                 console.error('Account creation error:', error);
                 let msg = 'Failed to create account. Please try again.';
                 if (error.code === 'permission-denied') {
-                    msg = 'Permission denied. Check your Firestore rules.';
+                    msg = 'Permission denied. Check your Firestore security rules.';
                 } else if (error.code === 'unavailable') {
                     msg = 'Service unavailable. Please try again later.';
                 }
@@ -1347,7 +1410,7 @@
         });
 
         // ============================================================
-        // GENERATE REFERRAL CODE (kept for future use)
+        // GENERATE REFERRAL CODE
         // ============================================================
         function generateReferralCode(name) {
             const prefix = name.substring(0, 2).toUpperCase();
