@@ -785,7 +785,7 @@
     </div>
 
     <!-- ============================================================
-    FIREBASE + APPLICATION LOGIC
+    FIREBASE + APPLICATION LOGIC (CORRECTED FIELD NAMES)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -881,14 +881,6 @@
             return null;
         }
 
-        function daysBetween(start, end) {
-            const s = parseDate(start);
-            const e = parseDate(end);
-            if (!s || !e) return 0;
-            const diff = e.getTime() - s.getTime();
-            return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
-        }
-
         function daysRemaining(end) {
             const e = parseDate(end);
             if (!e) return 0;
@@ -909,11 +901,10 @@
         }
 
         // ============================================================
-        // LOAD INVESTMENTS
+        // LOAD INVESTMENTS (uses correct field names)
         // ============================================================
         async function loadInvestments(uid) {
             try {
-                // Query investments for this user
                 const invRef = collection(db, 'investments');
                 const q = query(invRef, where('userId', '==', uid), orderBy('createdAt', 'desc'));
                 const snapshot = await getDocs(q);
@@ -923,21 +914,22 @@
                     const data = docSnap.data();
                     const inv = { id: docSnap.id, ...data };
 
-                    // If plan image missing, try to fetch from investmentPlans
-                    if (!inv.imageUrl && inv.planId) {
+                    // If plan image missing, try to fetch from investmentPlans using corrected fields
+                    if (!inv.image && inv.planId) {
                         try {
                             const planRef = doc(db, 'investmentPlans', inv.planId);
                             const planSnap = await getDoc(planRef);
                             if (planSnap.exists()) {
                                 const planData = planSnap.data();
-                                if (planData.imageUrl) inv.imageUrl = planData.imageUrl;
-                                if (!inv.planName && planData.planName) inv.planName = planData.planName;
+                                // Use correct field names: image, name
+                                if (planData.image) inv.image = planData.image;
+                                if (!inv.name && planData.name) inv.name = planData.name;
                             }
                         } catch (e) { /* ignore */ }
                     }
 
                     // Ensure numeric fields
-                    inv.investmentAmount = Number(inv.investmentAmount) || 0;
+                    inv.amount = Number(inv.amount) || 0;
                     inv.dailyReturn = Number(inv.dailyReturn) || 0;
                     inv.durationDays = Number(inv.durationDays) || 0;
                     inv.claimedIncome = Number(inv.claimedIncome) || 0;
@@ -976,7 +968,7 @@
         }
 
         // ============================================================
-        // UPDATE SUMMARY
+        // UPDATE SUMMARY (uses correct field names)
         // ============================================================
         function updateSummary() {
             let totalInvested = 0;
@@ -985,14 +977,12 @@
             let totalClaimed = 0;
 
             for (const inv of allInvestments) {
-                const status = (inv.status || 'active').toLowerCase();
-                totalInvested += inv.investmentAmount || 0;
+                const status = (inv.status || 'ACTIVE').toUpperCase();
+                totalInvested += inv.amount || 0;
                 totalClaimed += inv.claimedIncome || 0;
 
-                if (status === 'active') {
+                if (status === 'ACTIVE') {
                     activeCount++;
-                    // Today's income: daily return if active and not ended
-                    // We'll use a simple approach: if active and still within duration
                     const endDate = inv.endDate;
                     if (endDate) {
                         const remaining = daysRemaining(endDate);
@@ -1000,7 +990,6 @@
                             todayIncome += inv.dailyReturn || 0;
                         }
                     } else {
-                        // If no end date, assume active indefinitely (fallback)
                         todayIncome += inv.dailyReturn || 0;
                     }
                 }
@@ -1013,17 +1002,17 @@
         }
 
         // ============================================================
-        // FILTER & RENDER
+        // FILTER & RENDER (uses correct field names & uppercase statuses)
         // ============================================================
         function renderFiltered() {
             let filtered = allInvestments;
 
             if (currentFilter === 'active') {
-                filtered = filtered.filter(inv => (inv.status || 'active').toLowerCase() === 'active');
+                filtered = filtered.filter(inv => (inv.status || 'ACTIVE').toUpperCase() === 'ACTIVE');
             } else if (currentFilter === 'completed') {
-                filtered = filtered.filter(inv => (inv.status || '').toLowerCase() === 'completed');
+                filtered = filtered.filter(inv => (inv.status || '').toUpperCase() === 'COMPLETED');
             } else if (currentFilter === 'cancelled') {
-                filtered = filtered.filter(inv => (inv.status || '').toLowerCase() === 'cancelled');
+                filtered = filtered.filter(inv => (inv.status || '').toUpperCase() === 'CANCELLED');
             }
 
             if (filtered.length === 0) {
@@ -1045,25 +1034,26 @@
             }
 
             investmentsList.innerHTML = filtered.map(inv => {
-                const status = (inv.status || 'active').toLowerCase();
-                const statusClass = status === 'active' ? '' :
-                                    status === 'completed' ? 'completed' :
-                                    status === 'cancelled' ? 'cancelled' : '';
+                const status = (inv.status || 'ACTIVE').toUpperCase();
+                let statusClass = '';
+                if (status === 'ACTIVE') statusClass = '';
+                else if (status === 'COMPLETED') statusClass = 'completed';
+                else if (status === 'CANCELLED') statusClass = 'cancelled';
 
-                const image = inv.imageUrl || 'https://placehold.co/800x450/1a1a1a/888?text=Investment';
-                const name = inv.planName || 'Investment Plan';
-                const amount = inv.investmentAmount || 0;
+                const image = inv.image || 'https://placehold.co/800x450/1a1a1a/888?text=Investment';
+                const name = inv.name || 'Investment Plan';
+                const amount = inv.amount || 0;
                 const daily = inv.dailyReturn || 0;
                 const duration = inv.durationDays || 0;
                 const total = inv.totalReturn || (daily * duration);
                 const claimed = inv.claimedIncome || 0;
 
-                // Calculate today's income (if active)
+                // Today's income if active
                 let todayIncomeDisplay = 'K0.00';
                 let remainingDays = 0;
                 let progressPercent = 0;
 
-                if (status === 'active') {
+                if (status === 'ACTIVE') {
                     const endDate = inv.endDate;
                     if (endDate) {
                         remainingDays = daysRemaining(endDate);
@@ -1073,14 +1063,13 @@
                             todayIncomeDisplay = 'Completed';
                         }
                     } else {
-                        // No end date, assume active
                         todayIncomeDisplay = 'K' + formatCurrency(daily);
                     }
                     const startDate = inv.startDate;
                     if (startDate && endDate) {
                         progressPercent = progress(startDate, endDate);
                     }
-                } else if (status === 'completed') {
+                } else if (status === 'COMPLETED') {
                     progressPercent = 100;
                     todayIncomeDisplay = 'Completed';
                 } else {
@@ -1088,13 +1077,13 @@
                     todayIncomeDisplay = 'N/A';
                 }
 
-                const remainingDisplay = remainingDays > 0 ? `${remainingDays} days remaining` : 'Completed';
+                const remainingDisplay = (status === 'ACTIVE' && remainingDays > 0) ? `${remainingDays} days remaining` : (status === 'ACTIVE' ? 'Completed' : status);
 
                 return `
                         <div class="investment-card">
                             <div class="card-image">
                                 <img src="${image}" alt="${name}" loading="lazy" />
-                                <span class="status-badge ${statusClass}">${status.toUpperCase()}</span>
+                                <span class="status-badge ${statusClass}">${status}</span>
                             </div>
                             <div class="card-content">
                                 <div class="card-title">${name}</div>
@@ -1171,11 +1160,10 @@
                 window.location.href = 'login.html';
                 return;
             }
-            // Load investments
             loadInvestments(user.uid);
         });
 
-        console.log('PureOre Nexus — My Investments ready.');
+        console.log('PureOre Nexus — My Investments ready (field names corrected).');
     </script>
 
 </body>

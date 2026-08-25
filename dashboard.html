@@ -19,7 +19,7 @@
 
     <style>
         /* ============================================================
-           RESET & BASE
+           RESET & BASE (same as before)
         ============================================================ */
         *,
         *::before,
@@ -212,9 +212,7 @@
             width: 100%;
         }
 
-        /* ============================================================
-           HEADER
-        ============================================================ */
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             align-items: center;
@@ -308,9 +306,7 @@
             stroke-linejoin: round;
         }
 
-        /* ============================================================
-           WELCOME SECTION
-        ============================================================ */
+        /* ===== WELCOME ===== */
         .welcome-section {
             padding: 18px 0 10px;
         }
@@ -334,9 +330,7 @@
             margin-top: 2px;
         }
 
-        /* ============================================================
-           ADVERTISEMENT
-        ============================================================ */
+        /* ===== AD ===== */
         #ad-container {
             display: none;
             margin: 12px 0 16px;
@@ -392,9 +386,7 @@
             background: #dbb95c;
         }
 
-        /* ============================================================
-           BALANCE CARDS
-        ============================================================ */
+        /* ===== BALANCE CARDS ===== */
         .balance-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -428,7 +420,7 @@
         .balance-card.wallet::before {
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
-        .balance-card.activity::before {
+        .balance-card.income::before {
             background: linear-gradient(90deg, transparent, #2ecc71, transparent);
         }
 
@@ -488,22 +480,7 @@
             background: rgba(201, 168, 76, 0.06);
         }
 
-        /* ============================================================
-           QUICK ACTIONS
-        ============================================================ */
-        .section-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            letter-spacing: -0.01em;
-        }
-        .section-sub {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            font-weight: 300;
-            margin-bottom: 12px;
-        }
-
+        /* ===== QUICK ACTIONS ===== */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -552,19 +529,13 @@
             color: var(--text-muted);
         }
 
-        /* ============================================================
-           CARDS
-        ============================================================ */
+        /* ===== CARDS ===== */
         .card-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 18px;
         }
-        .card-grid.single {
-            grid-template-columns: 1fr;
-        }
-
         .card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--glass-border);
@@ -575,7 +546,6 @@
         .card:hover {
             border-color: rgba(255, 255, 255, 0.08);
         }
-
         .card .card-title {
             font-size: 0.7rem;
             font-weight: 600;
@@ -680,9 +650,7 @@
             color: var(--gold);
         }
 
-        /* ============================================================
-           PLAN CARD
-        ============================================================ */
+        /* ===== PLAN CARD ===== */
         .plan-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--glass-border);
@@ -771,9 +739,7 @@
             text-decoration: underline;
         }
 
-        /* ============================================================
-           INVESTMENT ITEM
-        ============================================================ */
+        /* ===== INVESTMENT ITEM ===== */
         .investment-item {
             display: flex;
             justify-content: space-between;
@@ -821,9 +787,7 @@
             color: #f1c40f;
         }
 
-        /* ============================================================
-           TRANSACTION ITEM
-        ============================================================ */
+        /* ===== TRANSACTION ===== */
         .transaction-item {
             display: flex;
             justify-content: space-between;
@@ -866,9 +830,7 @@
             color: #f1c40f;
         }
 
-        /* ============================================================
-           ANNOUNCEMENT
-        ============================================================ */
+        /* ===== ANNOUNCEMENT ===== */
         .announcement {
             background: rgba(201, 168, 76, 0.04);
             border: 1px solid rgba(201, 168, 76, 0.08);
@@ -906,9 +868,7 @@
             opacity: 0.6;
         }
 
-        /* ============================================================
-           EMPTY STATE
-        ============================================================ */
+        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 18px 0;
@@ -942,9 +902,7 @@
             text-decoration: underline;
         }
 
-        /* ============================================================
-           BRANDING FOOTER
-        ============================================================ */
+        /* ===== FOOTER ===== */
         .branding-footer {
             text-align: center;
             padding: 16px 0 8px;
@@ -961,9 +919,7 @@
             opacity: 0.7;
         }
 
-        /* ============================================================
-           BOTTOM NAV
-        ============================================================ */
+        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1027,9 +983,7 @@
             border: 2px solid var(--dark);
         }
 
-        /* ============================================================
-           BLOCKED / ERROR STATES
-        ============================================================ */
+        /* ===== BLOCKED / ERROR ===== */
         .blocked-screen,
         .error-screen {
             display: flex;
@@ -1102,9 +1056,7 @@
             box-shadow: 0 0 40px rgba(201, 168, 76, 0.04);
         }
 
-        /* ============================================================
-           RESPONSIVE
-        ============================================================ */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .balance-grid {
                 grid-template-columns: 1fr 1fr 1fr;
@@ -1259,10 +1211,6 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 16px;
             }
-            .card-grid.single {
-                grid-template-columns: 1fr;
-                max-width: 600px;
-            }
             .bottom-nav {
                 display: none;
             }
@@ -1292,9 +1240,7 @@
             }
         }
 
-        /* ============================================================
-           SCROLLBAR
-        ============================================================ */
+        /* ===== SCROLLBAR ===== */
         #main-dashboard::-webkit-scrollbar {
             width: 3px;
         }
@@ -1376,9 +1322,7 @@
             margin: 14px 0;
         }
 
-        /* ============================================================
-           TOAST
-        ============================================================ */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 80px;
@@ -1438,9 +1382,7 @@
 </head>
 <body>
 
-    <!-- ============================================================
-    LOADING SCREEN
-    ============================================================ -->
+    <!-- ===== LOADING SCREEN ===== -->
     <div id="loading-screen" role="status" aria-label="Loading">
         <div class="load-logo">
             <div class="load-logo-symbol" aria-hidden="true">
@@ -1457,13 +1399,11 @@
             <div class="load-progress-track">
                 <div class="load-progress-bar" id="load-bar" style="width:0%;"></div>
             </div>
-            <div class="load-msg" id="load-msg">Securing your account...</div>
+            <div class="load-msg" id="load-msg">Loading your dashboard...</div>
         </div>
     </div>
 
-    <!-- ============================================================
-    MAIN DASHBOARD
-    ============================================================ -->
+    <!-- ===== MAIN DASHBOARD ===== -->
     <div id="main-dashboard">
         <div class="bg-wrap" aria-hidden="true"></div>
         <div class="bg-overlay" aria-hidden="true"></div>
@@ -1552,16 +1492,16 @@
                             View Wallet
                         </a>
                     </div>
-                    <div class="balance-card activity">
-                        <div class="label">Activity Balance</div>
-                        <div class="amount"><span class="currency">K</span> <span id="activity-balance">0.00</span></div>
-                        <div class="desc">Activity &amp; referral rewards</div>
-                        <a href="daily-check.html" class="action-btn">
+                    <div class="balance-card income">
+                        <div class="label">Income Balance</div>
+                        <div class="amount"><span class="currency">K</span> <span id="income-balance">0.00</span></div>
+                        <div class="desc">Income &amp; referral rewards</div>
+                        <a href="income.html" class="action-btn">
                             <svg viewBox="0 0 24 24">
                                 <path d="M12 2v4M12 22v-4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M22 12h-4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            Activity
+                            Income
                         </a>
                     </div>
                 </div>
@@ -1596,19 +1536,18 @@
                             </svg>
                             <span class="label">Wallet</span>
                         </a>
-                        <a href="transactions.html" class="quick-action" aria-label="Transactions">
+                        <a href="income.html" class="quick-action" aria-label="Income">
                             <svg viewBox="0 0 24 24">
-                                <path d="M4 7h16M4 12h12M4 17h8" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M20 7l-4 5 4 5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 2v4M12 22v-4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M22 12h-4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <span class="label">Transactions</span>
+                            <span class="label">Income</span>
                         </a>
                     </div>
                 </section>
 
                 <!-- Card Grid: Daily Check + Referral -->
                 <div class="card-grid">
-                    <!-- Daily Check -->
                     <div class="card" id="daily-check-card">
                         <div class="card-title">Daily Check</div>
                         <div class="card-value" id="daily-day">Day 0 of 7</div>
@@ -1621,7 +1560,6 @@
                         </a>
                     </div>
 
-                    <!-- Referral -->
                     <div class="card" id="referral-card">
                         <div class="card-title">Invite &amp; Earn</div>
                         <div class="referral-code">
@@ -1759,7 +1697,7 @@
 
             </div>
 
-            <!-- Blocked / Error states (hidden by default) -->
+            <!-- Blocked / Error states -->
             <div id="blocked-state" class="hidden">
                 <div class="blocked-screen">
                     <svg viewBox="0 0 24 24">
@@ -1786,8 +1724,8 @@
                         <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                         <line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <h2 id="error-title">Something went wrong</h2>
-                    <p id="error-message">Unable to load your dashboard. Please try again.</p>
+                    <h2 id="error-title">Unable to Load Dashboard</h2>
+                    <p id="error-message">Please check your connection and try again.</p>
                     <button class="btn" id="error-retry">
                         <svg viewBox="0 0 24 24">
                             <path d="M1 4v6h6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
@@ -1824,12 +1762,12 @@
             </svg>
             Wallet
         </a>
-        <a href="daily-check.html" aria-label="Activity">
+        <a href="income.html" aria-label="Income">
             <svg viewBox="0 0 24 24">
                 <path d="M12 2v4M12 22v-4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M22 12h-4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            Activity
+            Income
         </a>
         <a href="profile.html" aria-label="Profile">
             <svg viewBox="0 0 24 24">
@@ -1840,9 +1778,7 @@
         </a>
     </nav>
 
-    <!-- ============================================================
-    TOAST
-    ============================================================ -->
+    <!-- ===== TOAST ===== -->
     <div class="toast" id="toast">
         <svg viewBox="0 0 24 24">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
@@ -1917,7 +1853,7 @@
         const userName = $('user-name');
         const depositBalance = $('deposit-balance');
         const walletBalance = $('wallet-balance');
-        const activityBalance = $('activity-balance');
+        const incomeBalance = $('income-balance');
         const dailyDay = $('daily-day');
         const referralCodeDisplay = $('referral-code-display');
         const notifBadge = $('notif-badge');
@@ -1931,13 +1867,6 @@
         // LOADING SCREEN
         // ============================================================
         let loadProgress = 0;
-        const loadMessages = [
-            'Securing your account...',
-            'Checking your profile...',
-            'Loading your Nexus...'
-        ];
-        let msgIndex = 0;
-
         const loadInterval = setInterval(() => {
             loadProgress += 1.8;
             if (loadProgress >= 100) {
@@ -1948,11 +1877,6 @@
                 return;
             }
             loadBar.style.width = loadProgress + '%';
-            const idx = Math.min(Math.floor(loadProgress / 35), 2);
-            if (idx !== msgIndex) {
-                msgIndex = idx;
-                loadMsg.textContent = loadMessages[msgIndex] || loadMessages[0];
-            }
         }, 35);
 
         // ============================================================
@@ -1998,7 +1922,7 @@
         }
 
         // ============================================================
-        // REDIRECT TO LOGIN (with blocked flag)
+        // REDIRECT TO LOGIN (blocked)
         // ============================================================
         function redirectToLoginBlocked() {
             window.location.href = 'login.html?blocked=true';
@@ -2013,15 +1937,13 @@
             } catch (e) {
                 console.warn('Sign out during blocked redirect:', e);
             }
-            // Show the blocked screen briefly, then redirect
             dashContent.classList.add('hidden');
             blockedState.classList.remove('hidden');
             errorState.classList.add('hidden');
             mainDash.classList.add('visible');
             loadScreen.classList.add('hidden');
             document.body.style.overflow = 'auto';
-            // Redirect after a moment
-            setTimeout(redirectToLoginBlocked, 1200);
+            setTimeout(redirectToLoginBlocked, 1500);
         }
 
         // ============================================================
@@ -2052,12 +1974,23 @@
             userName.textContent = userData.fullName || 'User';
             depositBalance.textContent = formatCurrency(userData.depositBalance || 0);
             walletBalance.textContent = formatCurrency(userData.walletBalance || 0);
-            activityBalance.textContent = formatCurrency(userData.activityBalance || 0);
+            incomeBalance.textContent = formatCurrency(userData.activityBalance || 0);
             referralCodeDisplay.textContent = userData.referralCode || '——';
         }
 
-        function renderDailyCheck(dailyData) {
-            const day = dailyData?.currentDay || 0;
+        function renderDailyCheck(registrationDate, dailyCheckData) {
+            // Compute current day based on registration
+            if (!registrationDate) {
+                dailyDay.textContent = '—';
+                return;
+            }
+            const regDate = registrationDate.toDate ? registrationDate.toDate() : new Date(registrationDate);
+            const now = new Date();
+            const diff = Math.floor((now - regDate) / (1000 * 60 * 60 * 24));
+            // Day 1..7, loop
+            let day = (diff % 7) + 1;
+            // Check if today already claimed: dailyCheckData has an array of claims with dates
+            // For simplicity, we'll show the day number; the detail page will handle claim logic.
             dailyDay.textContent = `Day ${day} of 7`;
         }
 
@@ -2070,7 +2003,7 @@
                                 <path d="M12 2v4M12 22v-4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M22 12h-4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <p>Investment opportunities will appear here when available.</p>
+                            <p>No investment plans available at the moment.</p>
                         </div>
                     `;
                 return;
@@ -2079,18 +2012,21 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-name">${plan.name || 'Unnamed Plan'}</div>
-                            <span class="plan-status ${plan.isActive ? '' : 'inactive'}">${plan.isActive ? 'Active' : 'Inactive'}</span>
+                            <span class="plan-status ${plan.status === 'ACTIVE' ? '' : 'inactive'}">${plan.status || 'Inactive'}</span>
                         </div>
                         <div class="plan-details">
                             <span>
                                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                Min: <strong>K ${formatCurrency(plan.minInvestment || 0)}</strong>
+                                Invest: <strong>K ${formatCurrency(plan.amount || 0)}</strong>
                             </span>
                             <span>
                                 <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                ${plan.duration || '—'}
+                                ${plan.durationDays || 0} days
                             </span>
-                            ${plan.status ? `<span>${plan.status}</span>` : ''}
+                            <span>
+                                <svg viewBox="0 0 24 24"><path d="M12 2v4M12 22v-4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M22 12h-4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                Return: K${formatCurrency(plan.dailyReturn || 0)}/day
+                            </span>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
                             <span style="font-size:0.6rem;color:var(--text-muted);">${plan.description || ''}</span>
@@ -2119,8 +2055,8 @@
                 return;
             }
             container.innerHTML = investments.slice(0, 3).map(inv => {
-                const statusClass = inv.status === 'active' ? 'active' :
-                    inv.status === 'matured' ? 'matured' : 'pending';
+                const statusClass = inv.status === 'ACTIVE' ? 'active' :
+                    inv.status === 'COMPLETED' ? 'matured' : 'pending';
                 return `
                         <div class="investment-item">
                             <div class="info">
@@ -2185,16 +2121,20 @@
                 return;
             }
             section.style.display = 'block';
-            container.innerHTML = announcements.slice(0, 2).map(a => `
-                    <div class="announcement">
-                        <div class="title">
-                            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                            ${a.title || 'Announcement'}
+            container.innerHTML = announcements.slice(0, 2).map(a => {
+                // The spec says announcements have 'title', 'content', 'published' and timestamp
+                // We'll use 'content' as message.
+                return `
+                        <div class="announcement">
+                            <div class="title">
+                                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                                ${a.title || 'Announcement'}
+                            </div>
+                            <div class="message">${a.content || a.message || ''}</div>
+                            <div class="date">${formatDate(a.createdAt || a.timestamp)}</div>
                         </div>
-                        <div class="message">${a.message || ''}</div>
-                        <div class="date">${formatDate(a.createdAt)}</div>
-                    </div>
-                `).join('');
+                    `;
+            }).join('');
         }
 
         // ============================================================
@@ -2228,7 +2168,7 @@
         }
 
         // ============================================================
-        // REAL-TIME USER LISTENER (with blocked detection)
+        // REAL-TIME USER LISTENER
         // ============================================================
         function listenToUserUpdates(uid) {
             const userRef = doc(db, 'users', uid);
@@ -2236,13 +2176,11 @@
                 if (snap.exists()) {
                     const data = snap.data();
                     if (data.isBlocked === true) {
-                        // User was blocked in real-time → redirect to login
                         handleBlockedUser();
                         return;
                     }
                     renderUser(data);
                 } else {
-                    // User document deleted
                     handleBlockedUser();
                 }
             }, (error) => {
@@ -2257,8 +2195,15 @@
             try {
                 const uid = user.uid;
 
-                const userRef = doc(db, 'users', uid);
-                const userSnap = await getDoc(userRef);
+                let userSnap;
+                try {
+                    const userRef = doc(db, 'users', uid);
+                    userSnap = await getDoc(userRef);
+                } catch (e) {
+                    console.error('Failed to load user document:', e);
+                    showError('Unable to Load Dashboard', 'Could not retrieve your profile. Please check your connection.');
+                    return;
+                }
 
                 if (!userSnap.exists()) {
                     showError('Account Not Found', 'Your account information could not be found. Please register or contact support.');
@@ -2267,7 +2212,6 @@
 
                 const userData = userSnap.data();
 
-                // Check if blocked
                 if (userData.isBlocked === true) {
                     await handleBlockedUser();
                     return;
@@ -2275,98 +2219,126 @@
 
                 renderUser(userData);
 
-                // Wallet
-                const walletRef = doc(db, 'wallets', uid);
-                const walletSnap = await getDoc(walletRef);
-                if (walletSnap.exists()) {
-                    const walletData = walletSnap.data();
-                    depositBalance.textContent = formatCurrency(walletData.depositBalance || userData.depositBalance || 0);
-                    walletBalance.textContent = formatCurrency(walletData.walletBalance || userData.walletBalance || 0);
-                    activityBalance.textContent = formatCurrency(walletData.activityBalance || userData.activityBalance || 0);
+                // Wallet data
+                try {
+                    const walletRef = doc(db, 'wallets', uid);
+                    const walletSnap = await getDoc(walletRef);
+                    if (walletSnap.exists()) {
+                        const walletData = walletSnap.data();
+                        depositBalance.textContent = formatCurrency(walletData.depositBalance || userData.depositBalance || 0);
+                        walletBalance.textContent = formatCurrency(walletData.walletBalance || userData.walletBalance || 0);
+                        incomeBalance.textContent = formatCurrency(walletData.activityBalance || userData.activityBalance || 0);
+                    }
+                } catch (e) {
+                    console.warn('Wallet load failed:', e);
                 }
 
-                // Daily Check
-                const dailyRef = doc(db, 'dailyChecks', uid);
-                const dailySnap = await getDoc(dailyRef);
-                if (dailySnap.exists()) {
-                    renderDailyCheck(dailySnap.data());
+                // Daily check – compute day from registration
+                if (userData.createdAt) {
+                    renderDailyCheck(userData.createdAt);
+                } else {
+                    dailyDay.textContent = '—';
                 }
 
-                // Investment Plans
-                const plansQuery = query(
-                    collection(db, 'investmentPlans'),
-                    where('isActive', '==', true),
-                    limit(6)
-                );
-                const plansSnap = await getDocs(plansQuery);
-                const plans = [];
-                plansSnap.forEach(doc => {
-                    plans.push({ id: doc.id, ...doc.data() });
-                });
-                renderInvestmentPlans(plans);
+                // Investment Plans – use status field
+                try {
+                    const plansQuery = query(
+                        collection(db, 'investmentPlans'),
+                        where('status', '==', 'ACTIVE'), // CORRECT field
+                        limit(6)
+                    );
+                    const plansSnap = await getDocs(plansQuery);
+                    const plans = [];
+                    plansSnap.forEach(doc => {
+                        plans.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderInvestmentPlans(plans);
+                } catch (e) {
+                    console.warn('Investment plans load failed:', e);
+                    renderInvestmentPlans([]);
+                }
 
-                // User Investments
-                const investmentsQuery = query(
-                    collection(db, 'investments'),
-                    where('userId', '==', uid),
-                    orderBy('createdAt', 'desc'),
-                    limit(5)
-                );
-                const investmentsSnap = await getDocs(investmentsQuery);
-                const investments = [];
-                investmentsSnap.forEach(doc => {
-                    investments.push({ id: doc.id, ...doc.data() });
-                });
-                renderMyInvestments(investments);
+                // My Investments
+                try {
+                    const investmentsQuery = query(
+                        collection(db, 'investments'),
+                        where('userId', '==', uid),
+                        orderBy('createdAt', 'desc'),
+                        limit(5)
+                    );
+                    const investmentsSnap = await getDocs(investmentsQuery);
+                    const investments = [];
+                    investmentsSnap.forEach(doc => {
+                        investments.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderMyInvestments(investments);
+                } catch (e) {
+                    console.warn('User investments load failed:', e);
+                    renderMyInvestments([]);
+                }
 
                 // Transactions
-                const txQuery = query(
-                    collection(db, 'transactions'),
-                    where('userId', '==', uid),
-                    orderBy('createdAt', 'desc'),
-                    limit(10)
-                );
-                const txSnap = await getDocs(txQuery);
-                const transactions = [];
-                txSnap.forEach(doc => {
-                    transactions.push({ id: doc.id, ...doc.data() });
-                });
-                renderTransactions(transactions);
+                try {
+                    const txQuery = query(
+                        collection(db, 'transactions'),
+                        where('userId', '==', uid),
+                        orderBy('createdAt', 'desc'),
+                        limit(10)
+                    );
+                    const txSnap = await getDocs(txQuery);
+                    const transactions = [];
+                    txSnap.forEach(doc => {
+                        transactions.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderTransactions(transactions);
+                } catch (e) {
+                    console.warn('Transactions load failed:', e);
+                    renderTransactions([]);
+                }
 
-                // Announcements
-                const annQuery = query(
-                    collection(db, 'announcements'),
-                    where('isActive', '==', true),
-                    orderBy('createdAt', 'desc'),
-                    limit(3)
-                );
-                const annSnap = await getDocs(annQuery);
-                const announcements = [];
-                annSnap.forEach(doc => {
-                    announcements.push({ id: doc.id, ...doc.data() });
-                });
-                renderAnnouncements(announcements);
+                // Announcements – use published field
+                try {
+                    const annQuery = query(
+                        collection(db, 'announcements'),
+                        where('published', '==', true), // CORRECT field
+                        orderBy('createdAt', 'desc'),
+                        limit(3)
+                    );
+                    const annSnap = await getDocs(annQuery);
+                    const announcements = [];
+                    annSnap.forEach(doc => {
+                        announcements.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderAnnouncements(announcements);
+                } catch (e) {
+                    console.warn('Announcements load failed:', e);
+                    renderAnnouncements([]);
+                }
 
-                // Notifications
-                const notifQuery = query(
-                    collection(db, 'notifications'),
-                    where('userId', '==', uid),
-                    where('read', '==', false),
-                    limit(100)
-                );
-                const notifSnap = await getDocs(notifQuery);
-                const unreadCount = notifSnap.size;
-                if (unreadCount > 0) {
-                    notifBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-                    notifBadge.classList.remove('hidden');
-                } else {
+                // Notifications count
+                try {
+                    const notifQuery = query(
+                        collection(db, 'notifications'),
+                        where('userId', '==', uid),
+                        where('read', '==', false),
+                        limit(100)
+                    );
+                    const notifSnap = await getDocs(notifQuery);
+                    const unreadCount = notifSnap.size;
+                    if (unreadCount > 0) {
+                        notifBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                        notifBadge.classList.remove('hidden');
+                    } else {
+                        notifBadge.classList.add('hidden');
+                    }
+                } catch (e) {
+                    console.warn('Notifications count failed:', e);
                     notifBadge.classList.add('hidden');
                 }
 
-                // Load ad
                 await loadAd();
 
-                // Set up real-time listener for block status
+                // Listen for real-time user updates
                 listenToUserUpdates(uid);
 
                 showDashboard();
@@ -2481,7 +2453,7 @@
             window.location.reload();
         });
 
-        console.log('PureOre Nexus — Dashboard ready (with blocked redirect).');
+        console.log('PureOre Nexus — Dashboard ready (field names fixed).');
     </script>
 
 </body>

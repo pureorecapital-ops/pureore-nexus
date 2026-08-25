@@ -727,6 +727,30 @@
             text-decoration: none;
         }
 
+        .bottom-links .admin-link {
+            color: var(--gold);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            transition: color 0.25s ease;
+        }
+        .bottom-links .admin-link:hover {
+            color: #dbb95c;
+            text-decoration: underline;
+        }
+        .bottom-links .admin-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         /* ============================================================
            MODAL LOADING OVERLAY
         ============================================================ */
@@ -1051,13 +1075,21 @@
                     </button>
                 </div>
 
-                <!-- ===== BOTTOM LINKS ===== -->
+                <!-- ===== BOTTOM LINKS (with Admin Login) ===== -->
                 <div class="bottom-links">
                     <div>
                         Don't have an account? <a href="register.html">Create Account</a>
                     </div>
-                    <div class="mt-8">
+                    <div class="mt-8" style="display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap;">
                         <a href="support.html" class="help-link">Need help?</a>
+                        <span style="color:rgba(255,255,255,0.08);">|</span>
+                        <a href="admin-login.html" class="admin-link">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" fill="none" />
+                            </svg>
+                            Admin Login
+                        </a>
                     </div>
                 </div>
 

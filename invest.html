@@ -18,7 +18,7 @@
 
     <style>
         /* ============================================================
-           RESET & BASE
+           RESET & BASE (same as your design)
         ============================================================ */
         *,
         *::before,
@@ -255,7 +255,7 @@
         }
 
         /* ============================================================
-           HERO SECTION (automotive visual)
+           HERO SECTION
         ============================================================ */
         .hero-section {
             position: relative;
@@ -375,7 +375,7 @@
         }
 
         /* ============================================================
-           MAIN ACTION CARDS
+           ACTION CARDS
         ============================================================ */
         .action-grid {
             display: grid;
@@ -516,7 +516,7 @@
         }
 
         /* ============================================================
-           PREVIEW CARDS (Active Investments & Available Plans)
+           PREVIEW CARDS
         ============================================================ */
         .preview-grid {
             display: grid;
@@ -857,9 +857,7 @@
 </head>
 <body>
 
-    <!-- ============================================================
-    LOADING SCREEN
-    ============================================================ -->
+    <!-- ===== LOADING SCREEN ===== -->
     <div id="loading-screen" role="status" aria-label="Loading">
         <div class="load-logo">
             <div class="load-logo-symbol" aria-hidden="true">
@@ -880,9 +878,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    MAIN PAGE
-    ============================================================ -->
+    <!-- ===== MAIN PAGE ===== -->
     <div id="main-page">
         <div class="bg-wrap" aria-hidden="true"></div>
         <div class="bg-overlay" aria-hidden="true"></div>
@@ -1000,9 +996,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    BOTTOM NAVIGATION
-    ============================================================ -->
+    <!-- ===== BOTTOM NAVIGATION ===== -->
     <nav class="bottom-nav" aria-label="Main navigation">
         <a href="dashboard.html" aria-label="Home">
             <svg viewBox="0 0 24 24">
@@ -1042,7 +1036,7 @@
     </nav>
 
     <!-- ============================================================
-    FIREBASE + APPLICATION LOGIC
+    FIREBASE + APPLICATION LOGIC (CORRECTED FIELD NAMES)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -1050,7 +1044,7 @@
         // ============================================================
         import { initializeApp } from 'firebase/app';
         import { getAuth, onAuthStateChanged } from 'firebase/auth';
-        import { getFirestore, collection, query, where, getDocs, orderBy, limit, doc, getDoc } from 'firebase/firestore';
+        import { getFirestore, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 
         // ============================================================
         // FIREBASE CONFIG
@@ -1140,7 +1134,7 @@
         }
 
         // ============================================================
-        // LOAD DATA
+        // LOAD DATA (CORRECTED FIELD NAMES)
         // ============================================================
         async function loadData(uid) {
             try {
@@ -1163,9 +1157,9 @@
                     totalClaimed += Number(data.amount) || 0;
                 });
 
-                // 3. Load available plans (active)
+                // 3. Load available plans (status == 'ACTIVE' per spec)
                 const planRef = collection(db, 'investmentPlans');
-                const planQuery = query(planRef, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(3));
+                const planQuery = query(planRef, where('status', '==', 'ACTIVE'), orderBy('createdAt', 'desc'), limit(3));
                 const planSnap = await getDocs(planQuery);
                 const plans = [];
                 planSnap.forEach(doc => {
@@ -1179,10 +1173,10 @@
                 const activeInvestments = [];
 
                 for (const inv of investments) {
-                    const status = (inv.status || 'active').toLowerCase();
-                    totalInvested += Number(inv.investmentAmount) || 0;
+                    const status = (inv.status || 'ACTIVE').toUpperCase();
+                    totalInvested += Number(inv.amount) || 0; // ✅ CORRECT: amount (not investmentAmount)
 
-                    if (status === 'active') {
+                    if (status === 'ACTIVE') {
                         activeCount++;
                         activeInvestments.push(inv);
                         // Today's income: daily return if active and within duration
@@ -1253,9 +1247,9 @@
             }
 
             activePreview.innerHTML = activeInvestments.map(inv => {
-                const image = inv.imageUrl || 'https://placehold.co/400x225/1a1a1a/888?text=Investment';
+                const image = inv.image || 'https://placehold.co/400x225/1a1a1a/888?text=Investment'; // ✅ image field
                 const name = inv.planName || 'Investment Plan';
-                const amount = Number(inv.investmentAmount) || 0;
+                const amount = Number(inv.amount) || 0;
                 const daily = Number(inv.dailyReturn) || 0;
                 const duration = Number(inv.durationDays) || 0;
 
@@ -1301,9 +1295,9 @@
             }
 
             plansPreview.innerHTML = plans.slice(0, 3).map(plan => {
-                const image = plan.imageUrl || 'https://placehold.co/400x225/1a1a1a/888?text=Automotive';
+                const image = plan.image || 'https://placehold.co/400x225/1a1a1a/888?text=Automotive'; // ✅ image field
                 const name = plan.planName || 'Unnamed Plan';
-                const amount = Number(plan.investmentAmount) || 0;
+                const amount = Number(plan.amount) || 0; // ✅ amount field
                 const daily = Number(plan.dailyReturn) || 0;
                 const duration = Number(plan.durationDays) || 0;
 
@@ -1341,7 +1335,7 @@
             loadData(user.uid);
         });
 
-        console.log('PureOre Nexus — Invest Hub ready.');
+        console.log('PureOre Nexus — Invest Hub ready (field names corrected).');
     </script>
 </body>
 </html>

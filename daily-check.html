@@ -1028,87 +1028,30 @@
                 dailyCheckData = claims;
 
                 // 5. Determine current day in cycle
-                // Use the business date to determine the day in the 7-day cycle
-                // We'll use the day of the month modulo 7, starting from a reference date
-                // For simplicity, we'll use the current business date and calculate
-                // which day of the cycle we're on based on the existing project's logic.
-                // If the user has claimed a day, we'll use that to determine the current cycle position.
-
-                // If the user has claims, we can determine the current day based on the last claim date.
-                // Otherwise, we'll use the current date to determine the day.
                 const businessDate = getBusinessDayInfo();
-
-                // We'll use a simple approach: the current day in the cycle is based on the
-                // day of the month, but we need to handle the 7-day cycle properly.
-                // For a production system, we'd use a more robust method with a reference date.
-                // For now, we'll use the day of the month modulo 7 (0-based).
-                // This ensures a consistent 7-day cycle.
-
-                // Get the day of the month (1-31)
                 const dayOfMonth = businessDate.getDate();
-                // Use modulo 7 to get 0-6 (0 = Monday, 6 = Sunday in our scheme)
-                // But we want to match our DAY_NAMES array where index 0 = Monday
-                // So we map: Monday = 0, Tuesday = 1, etc.
-                // The actual day of the week from getDay() gives Sunday = 0, Monday = 1, etc.
-                // We'll use getDay() and adjust so Monday = 0
-                const dayOfWeek = businessDate.getDay(); // 0=Sunday, 1=Monday, ...
-                // Map to our system: Monday=0, Tuesday=1, ..., Sunday=6
-                currentDayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
 
-                // However, the Daily Check cycle should be continuous, not resetting each week.
-                // We'll use the day of the month to determine the cycle position.
-                // Let's use: (dayOfMonth - 1) % 7
-                // This gives us a 7-day cycle based on the day of the month.
-                const cycleDay = (dayOfMonth - 1) % 7;
-                // But we want Monday to be the start of the cycle.
-                // We'll use the actual day of the week to map correctly.
-                // For consistency, we'll use the day-of-month approach but
-                // align with the user's claimed days.
-
-                // Check if the user has any claims to determine the cycle start
+                // Use day of month modulo 7 to determine cycle position
                 const claimKeys = Object.keys(claims);
                 if (claimKeys.length > 0) {
-                    // Sort claims by day number to find the latest claimed day
-                    const sortedDays = claimKeys.map(Number).sort((a, b) => a - b);
-                    const latestClaimed = sortedDays[sortedDays.length - 1];
-
-                    // If the latest claimed day is less than 7, the user is still in the first cycle
-                    if (latestClaimed < 7) {
-                        // Use the latest claimed + 1 as the current day (if not already claimed)
-                        // But we need to check if today's date is after the latest claim date
-                        // This is getting complex; let's use a simpler approach based on the business date.
-
-                        // If the user has claimed day 7, they might be in a new cycle.
-                        // We'll use the current date to determine which day is available.
-                        // Use the day of the month modulo 7 to determine the current day.
-                        // This ensures a consistent 7-day cycle that rotates with the calendar.
-                        // We'll use the business date's day of the month modulo 7.
-                        // But we need to offset so that day 1 starts on the correct day.
-                        // We'll use the date of the user's first claim as the cycle start.
-                        // For simplicity, we'll use the business date's day of month % 7.
-                        // Let's use: (dayOfMonth - 1) % 7, but shifted so that 0 = Monday.
-                        // We'll just use the day-of-week approach for simplicity,
-                        // but this means the cycle resets each week.
-                        // A better approach is to use the date of the first claim as the cycle start.
-
-                        // Since we don't have the first claim date easily, we'll use a simpler method:
-                        // The user can claim days 1-7 in order. If they've claimed day 7, they start a new cycle.
-                        // We'll use the day of the month to determine which day is available.
-                        // Let's use: (dayOfMonth - 1) % 7 + 1 to get 1-7.
-                        const dayNum = ((dayOfMonth - 1) % 7) + 1;
-                        currentDayIndex = dayNum - 1;
+                    // User has some claims - determine the next available day
+                    // Find the first unclaimed day in sequence
+                    let nextDay = 1;
+                    for (let i = 1; i <= 7; i++) {
+                        if (!claims[i]) {
+                            nextDay = i;
+                            break;
+                        }
+                    }
+                    // If all 7 days are claimed, start a new cycle from day 1
+                    if (nextDay > 7) {
+                        currentDayIndex = 0;
                     } else {
-                        // User has completed a cycle, check if they're in a new cycle
-                        const dayNum = ((dayOfMonth - 1) % 7) + 1;
-                        currentDayIndex = dayNum - 1;
+                        currentDayIndex = nextDay - 1;
                     }
                 } else {
-                    // No claims yet, use the current day of the week to determine the starting day
-                    // We'll start from day 1 (Monday) and let the user claim sequentially
-                    // But to make it work, we'll allow the user to claim day 1 on any day
-                    // and then day 2 the next day, etc.
-                    // For the first claim, we'll let the user start from day 1 regardless of the day of week.
-                    currentDayIndex = 0; // Start from day 1
+                    // No claims yet - start from day 1
+                    currentDayIndex = 0;
                 }
 
                 // Render everything
@@ -1145,29 +1088,47 @@
         // RENDER CALENDAR
         // ============================================================
         function renderCalendar() {
-            // Determine which days are available/claimed
-            const today = new Date();
             const businessDate = getBusinessDayInfo();
-            const dayOfMonth = businessDate.getDate();
-            const dayOfWeek = businessDate.getDay(); // 0=Sunday
+            const todayStr = businessDate.toDateString();
 
-            // We'll use a combination of the day of month and the user's claims
-            // to determine the current day in the cycle.
-
-            // First, check if the user has claims
-            const claimKeys = Object.keys(dailyCheckData || {});
-            let hasClaims = claimKeys.length > 0;
+            // Check if user has claimed today
+            let claimedToday = false;
+            if (dailyCheckData) {
+                for (const key of Object.keys(dailyCheckData)) {
+                    const claim = dailyCheckData[key];
+                    if (claim.claimedAt) {
+                        const claimDate = claim.claimedAt.toDate ? claim.claimedAt.toDate() : new Date(claim.claimedAt);
+                        if (claimDate.toDateString() === todayStr) {
+                            claimedToday = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
             // Build the calendar
             let html = '';
             const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+            // Find first unclaimed day
+            let firstUnclaimed = 7;
+            let allClaimed = true;
+            for (let i = 1; i <= 7; i++) {
+                if (!dailyCheckData || !dailyCheckData[i]) {
+                    firstUnclaimed = i;
+                    allClaimed = false;
+                    break;
+                }
+            }
+
+            // If all 7 days are claimed, the user is in a new cycle
+            const isNewCycle = allClaimed;
 
             for (let i = 0; i < 7; i++) {
                 const dayNumber = i + 1;
                 const amount = DAY_AMOUNTS[i] || 0;
                 const dayName = dayNames[i];
 
-                // Determine status
                 let status = 'locked';
                 let statusText = 'Locked';
                 let isClaimed = false;
@@ -1180,112 +1141,50 @@
                     status = 'claimed';
                     statusText = 'Claimed';
                 } else {
-                    // Check if this day is available to claim
-                    // The user can only claim days in order: day 1, then day 2, etc.
-                    // Check if all previous days are claimed
-                    let allPreviousClaimed = true;
-                    for (let j = 1; j < dayNumber; j++) {
-                        if (!dailyCheckData || !dailyCheckData[j]) {
-                            allPreviousClaimed = false;
-                            break;
+                    // Check if this day is available
+                    if (isNewCycle) {
+                        // All days claimed, start new cycle
+                        // Only day 1 is available (if not claimed today)
+                        if (i === 0 && !claimedToday) {
+                            isAvailable = true;
+                            status = 'available';
+                            statusText = 'Available';
                         }
-                    }
-
-                    if (allPreviousClaimed) {
-                        // This day is available if it's the next day in the cycle
-                        // We also need to check if the user can claim this day today
-                        // based on the 24-hour rule: only one claim per day
-
-                        // Check if the user has claimed any day today
-                        const todayStr = businessDate.toDateString();
-                        let claimedToday = false;
-                        if (dailyCheckData) {
-                            for (const key of Object.keys(dailyCheckData)) {
-                                const claim = dailyCheckData[key];
-                                if (claim.claimedAt) {
-                                    const claimDate = claim.claimedAt.toDate ? claim.claimedAt.toDate() : new Date(claim.claimedAt);
-                                    if (claimDate.toDateString() === todayStr) {
-                                        claimedToday = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        // Determine if this is the current day to claim
-                        // We'll use a simple approach: the first unclaimed day is available
-                        // But we need to ensure it's the next day in sequence.
-                        // We'll check if all previous days are claimed.
-                        if (allPreviousClaimed) {
-                            // This is the next available day
-                            // Check if the user has already claimed today
-                            if (claimedToday) {
-                                // Can't claim another day today
-                                if (i === currentDayIndex && !isClaimed) {
-                                    status = 'locked';
-                                    statusText = 'Locked';
-                                } else {
-                                    status = 'locked';
-                                    statusText = 'Locked';
-                                }
-                            } else {
-                                // This day is available
-                                status = 'available';
-                                statusText = 'Available';
-                                isAvailable = true;
-                            }
-                        }
+                    } else if (i === firstUnclaimed - 1 && !claimedToday) {
+                        // This is the next unclaimed day
+                        isAvailable = true;
+                        status = 'available';
+                        statusText = 'Available';
                     }
                 }
 
-                // Check if this is the current day in the cycle (for highlighting)
-                // We'll highlight the first unclaimed day if it exists
-                if (!isClaimed && !isAvailable && allPreviousClaimed) {
-                    // This is the next day to claim but may be locked due to claiming today
-                }
-
-                // Determine if this is the actual current day
-                const dayOfMonthCycle = (dayOfMonth - 1) % 7;
-                if (i === dayOfMonthCycle && !isClaimed) {
+                // Check if this is the current day (for highlighting)
+                const dayOfMonth = businessDate.getDate();
+                const dayOfWeek = businessDate.getDay();
+                // Map to our 0-based index (Monday=0)
+                const currentDayIdx = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                if (i === currentDayIdx) {
                     isToday = true;
                 }
 
-                // If no claims yet, day 1 is available
-                if (!hasClaims && i === 0) {
+                // If the user hasn't claimed today and this is the first unclaimed day, it's available
+                if (!claimedToday && !isClaimed && i === firstUnclaimed - 1) {
+                    isAvailable = true;
                     status = 'available';
                     statusText = 'Available';
-                    isAvailable = true;
                 }
 
-                // If this is the current day and it's not claimed and it's the first unclaimed day
-                if (isToday && !isClaimed && status === 'locked') {
-                    // Check if all previous days are claimed
-                    let allPrevClaimed = true;
-                    for (let j = 1; j < dayNumber; j++) {
-                        if (!dailyCheckData || !dailyCheckData[j]) {
-                            allPrevClaimed = false;
-                            break;
-                        }
-                    }
-                    if (allPrevClaimed) {
+                // Special case: if no claims at all, day 1 is available
+                if (!dailyCheckData || Object.keys(dailyCheckData).length === 0) {
+                    if (i === 0 && !claimedToday) {
+                        isAvailable = true;
                         status = 'available';
                         statusText = 'Available';
-                        isAvailable = true;
                     }
                 }
 
-                // For the very first day, if no claims, make it available
-                if (!hasClaims && i === 0) {
-                    status = 'available';
-                    statusText = 'Available';
-                    isAvailable = true;
-                }
-
-                // Status class for CSS
                 const statusClass = status;
-
-                // Today highlight
-                const todayClass = isToday && !isClaimed ? 'today' : '';
+                const todayClass = isToday ? 'today' : '';
 
                 // Claim button
                 let claimButton = '';
@@ -1298,25 +1197,8 @@
                         `;
                 } else if (isClaimed) {
                     claimButton = `<div style="margin-top:4px;font-size:0.45rem;color:#2ecc71;">✓ Claimed</div>`;
-                } else if (status === 'locked') {
+                } else {
                     claimButton = `<div style="margin-top:4px;font-size:0.45rem;color:var(--text-muted);">🔒</div>`;
-                }
-
-                // If this is the first unclaimed day but not available today, show a lock
-                if (!isClaimed && !isAvailable && allPreviousClaimed) {
-                    // It's the next day but not claimable today
-                    // We'll show it as locked with a lock icon
-                    claimButton = `<div style="margin-top:4px;font-size:0.45rem;color:var(--text-muted);">🔒</div>`;
-                }
-
-                // If no claims yet, make day 1 available
-                if (!hasClaims && i === 0) {
-                    claimButton = `
-                            <button class="claim-btn-small" data-day="${dayNumber}" data-amount="${amount}">
-                                <span class="spinner-xs"></span>
-                                <span class="btn-text">Claim K${formatCurrency(amount)}</span>
-                            </button>
-                        `;
                 }
 
                 // Today label
@@ -1344,8 +1226,7 @@
                 btn.addEventListener('click', async (e) => {
                     e.preventDefault();
                     const day = parseInt(btn.dataset.day);
-                    const amount = parseFloat(btn.dataset.amount);
-                    await handleClaim(day, amount, btn);
+                    await handleClaim(day, btn);
                 });
             });
         }
@@ -1381,9 +1262,9 @@
         }
 
         // ============================================================
-        // HANDLE CLAIM
+        // HANDLE CLAIM (uses dayIndex for Cloud Function)
         // ============================================================
-        async function handleClaim(day, amount, btn) {
+        async function handleClaim(day, btn) {
             if (isProcessing) return;
             if (!currentUser) {
                 showToast('Please log in to claim.', 'error');
@@ -1391,7 +1272,6 @@
             }
 
             // Double-check that this day is actually available
-            // Check if already claimed
             if (dailyCheckData && dailyCheckData[day]) {
                 showToast('This day has already been claimed.', 'error');
                 renderCalendar();
@@ -1434,14 +1314,14 @@
             try {
                 // Call the claimDailyCheck Cloud Function
                 const claimFn = httpsCallable(functions, 'claimDailyCheck');
+                // ✅ Send dayIndex (0-based) to match Cloud Function expectation
                 const result = await claimFn({
-                    dayNumber: day,
-                    amount: amount
+                    dayIndex: day - 1 // 0-based index
                 });
 
                 if (result.data && result.data.success === true) {
                     // Success!
-                    const claimedAmount = result.data.amount || amount;
+                    const claimedAmount = result.data.claimed || DAY_AMOUNTS[day - 1] || 0;
 
                     // Refresh data
                     await refreshData();
@@ -1449,19 +1329,15 @@
                     // Show success toast
                     showToast(`✓ Claimed K${formatCurrency(claimedAmount)}!`, 'success');
 
-                    // Update the calendar to show claimed state
-                    renderCalendar();
-                    renderProgress();
-                    renderTotal();
-                    renderWallet();
+                    // Update the calendar
+                    renderAll();
 
                 } else {
                     const errorMsg = result.data?.message || 'Claim failed. Please try again.';
                     showToast(errorMsg, 'error');
-                    // Re-enable the button
                     btn.classList.remove('loading');
                     btn.disabled = false;
-                    btn.querySelector('.btn-text').textContent = `Claim K${formatCurrency(amount)}`;
+                    btn.querySelector('.btn-text').textContent = `Claim K${formatCurrency(DAY_AMOUNTS[day - 1] || 0)}`;
                 }
 
             } catch (error) {
@@ -1473,11 +1349,13 @@
                     msg = 'Please claim the previous days first.';
                 } else if (error.message && error.message.includes('today already')) {
                     msg = 'You have already claimed today\'s reward.';
+                } else if (error.message && error.message.includes('weekend')) {
+                    msg = 'Daily Check is not available on weekends.';
                 }
                 showToast(msg, 'error');
                 btn.classList.remove('loading');
                 btn.disabled = false;
-                btn.querySelector('.btn-text').textContent = `Claim K${formatCurrency(amount)}`;
+                btn.querySelector('.btn-text').textContent = `Claim K${formatCurrency(DAY_AMOUNTS[day - 1] || 0)}`;
             } finally {
                 isProcessing = false;
             }
@@ -1535,7 +1413,7 @@
             loadDailyCheckData(user.uid);
         });
 
-        console.log('PureOre Nexus — Daily Check page ready.');
+        console.log('PureOre Nexus — Daily Check page ready (dayIndex fix).');
     </script>
 
 </body>

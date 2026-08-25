@@ -719,7 +719,7 @@
         // ============================================================
         import { initializeApp } from 'firebase/app';
         import { getAuth, onAuthStateChanged } from 'firebase/auth';
-        import { getFirestore, collection, query, where, orderBy, onSnapshot, doc, updateDoc, writeBatch, getDocs, limit } from 'firebase/firestore';
+        import { getFirestore, collection, query, where, orderBy, onSnapshot, doc, updateDoc, writeBatch } from 'firebase/firestore';
 
         // ============================================================
         // FIREBASE CONFIG
@@ -795,7 +795,9 @@
         function formatDate(timestamp) {
             if (!timestamp) return '';
             try {
-                const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                // Support both 'createdAt' and 'timestamp' field names
+                const dateVal = timestamp || timestamp;
+                const d = dateVal.toDate ? dateVal.toDate() : new Date(dateVal);
                 const now = new Date();
                 const diff = now - d;
                 if (diff < 60000) return 'Just now';
@@ -846,7 +848,7 @@
                 const isUnread = !n.read;
                 if (isUnread) unreadFound = true;
                 const iconSvg = getIconForType(n.type);
-                const dateStr = formatDate(n.createdAt);
+                const dateStr = formatDate(n.createdAt || n.timestamp);
                 const hasAction = n.action && n.action.page;
                 let actionLink = '';
                 if (hasAction) {

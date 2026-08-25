@@ -18,7 +18,7 @@
 
     <style>
         /* ============================================================
-           RESET & BASE
+           RESET & BASE (unchanged)
         ============================================================ */
         *,
         *::before,
@@ -905,7 +905,7 @@
     </nav>
 
     <!-- ============================================================
-    FIREBASE + APPLICATION LOGIC
+    FIREBASE + APPLICATION LOGIC (CORRECTED FIELD NAMES)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -968,7 +968,7 @@
         }
 
         // ============================================================
-        // RENDER PLANS
+        // RENDER PLANS (using corrected field names)
         // ============================================================
         function renderPlans(plans) {
             if (!plans || plans.length === 0) {
@@ -984,26 +984,27 @@
                 return;
             }
 
-            // Sort: active first, then coming soon, then closed
-            const statusOrder = { active: 0, 'coming soon': 1, closed: 2 };
+            // Sort: ACTIVE first, then COMING SOON, then CLOSED
+            const statusOrder = { ACTIVE: 0, 'COMING SOON': 1, CLOSED: 2 };
             const sorted = [...plans].sort((a, b) => {
-                const aStatus = (a.status || 'closed').toLowerCase();
-                const bStatus = (b.status || 'closed').toLowerCase();
+                const aStatus = (a.status || 'CLOSED').toUpperCase();
+                const bStatus = (b.status || 'CLOSED').toUpperCase();
                 return (statusOrder[aStatus] ?? 3) - (statusOrder[bStatus] ?? 3);
             });
 
             grid.innerHTML = sorted.map(plan => {
                 const planId = plan.id;
-                const name = plan.planName || 'Unnamed Plan';
-                const image = plan.imageUrl || 'https://placehold.co/600x400/1a1a1a/888?text=Automotive';
-                const investAmount = plan.investmentAmount || 0;
+                // ✅ Correct field names
+                const name = plan.name || 'Unnamed Plan';
+                const image = plan.image || 'https://placehold.co/600x400/1a1a1a/888?text=Automotive';
+                const investAmount = plan.amount || 0;
                 const dailyReturn = plan.dailyReturn || 0;
-                const duration = plan.durationDays || plan.duration || 0;
+                const duration = plan.durationDays || 0;
                 const total = dailyReturn * duration;
-                const status = (plan.status || 'closed').toLowerCase();
-                const statusClass = status === 'active' ? '' :
-                                    status === 'coming soon' ? 'coming-soon' :
-                                    status === 'closed' ? 'closed' : '';
+                const status = (plan.status || 'CLOSED').toUpperCase();
+                const statusClass = status === 'ACTIVE' ? '' :
+                                    status === 'COMING SOON' ? 'coming-soon' :
+                                    status === 'CLOSED' ? 'closed' : '';
 
                 return `
                         <div class="plan-card">
@@ -1038,7 +1039,7 @@
                                     Total: <strong>K${formatCurrency(total)}</strong>
                                 </div>
                                 <div class="plan-footer">
-                                    <span class="plan-status ${statusClass}">${status.toUpperCase()}</span>
+                                    <span class="plan-status ${statusClass}">${status}</span>
                                     <a href="investment-details.html?id=${planId}" class="plan-view-link">
                                         View Plan
                                         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
@@ -1079,7 +1080,6 @@
         // AUTHENTICATION CHECK
         // ============================================================
         onAuthStateChanged(auth, (user) => {
-            // Hide loading after a short delay
             setTimeout(() => {
                 loadScreen.classList.add('hidden');
                 mainInvest.classList.add('visible');
@@ -1104,7 +1104,7 @@
             window.location.href = 'profile.html';
         });
 
-        console.log('PureOre Nexus — Investment page ready.');
+        console.log('PureOre Nexus — Investment page ready (field names corrected).');
     </script>
 
 </body>

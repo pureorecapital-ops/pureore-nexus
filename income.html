@@ -18,9 +18,7 @@
     </script>
 
     <style>
-        /* ============================================================
-           RESET & BASE
-        ============================================================ */
+        /* ... (unchanged – same as your original) ... */
         *,
         *::before,
         *::after {
@@ -28,7 +26,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --gold: #c9a84c;
             --gold-glow: rgba(201, 168, 76, 0.25);
@@ -43,7 +40,6 @@
             --radius-sm: 10px;
             --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-
         html,
         body {
             height: 100%;
@@ -54,7 +50,6 @@
             -moz-osx-font-smoothing: grayscale;
             overflow: hidden;
         }
-
         /* ============================================================
            LOADING SCREEN
         ============================================================ */
@@ -74,7 +69,6 @@
             visibility: hidden;
             pointer-events: none;
         }
-
         .load-logo {
             display: flex;
             flex-direction: column;
@@ -132,7 +126,6 @@
             font-weight: 300;
             margin-top: 0.2rem;
         }
-
         .load-progress-wrap {
             width: 200px;
             max-width: 60vw;
@@ -162,7 +155,6 @@
             min-height: 1.2em;
             font-weight: 300;
         }
-
         /* ============================================================
            MAIN PAGE
         ============================================================ */
@@ -182,7 +174,6 @@
             opacity: 1;
             transform: scale(1);
         }
-
         .bg-wrap {
             position: fixed;
             inset: 0;
@@ -200,7 +191,6 @@
             background: radial-gradient(ellipse at 50% 30%, rgba(11, 11, 11, 0.5) 0%, rgba(11, 11, 11, 0.95) 80%, #0b0b0b 100%);
             pointer-events: none;
         }
-
         .page-scroll {
             position: relative;
             z-index: 2;
@@ -210,7 +200,6 @@
             margin: 0 auto;
             width: 100%;
         }
-
         /* ============================================================
            HEADER
         ============================================================ */
@@ -229,7 +218,6 @@
             margin: 0 -16px;
             padding: 14px 16px;
         }
-
         .header-brand {
             display: flex;
             align-items: center;
@@ -255,7 +243,6 @@
             color: var(--gold);
             font-style: normal;
         }
-
         /* ============================================================
            CONTENT SECTIONS
         ============================================================ */
@@ -284,7 +271,6 @@
             color: var(--text-muted);
             font-weight: 300;
         }
-
         .weekend-message {
             background: rgba(231, 76, 60, 0.04);
             border: 1px solid rgba(231, 76, 60, 0.08);
@@ -304,7 +290,6 @@
             margin-top: 4px;
             line-height: 1.5;
         }
-
         .claim-btn {
             width: 100%;
             padding: 16px;
@@ -356,7 +341,6 @@
         .claim-btn.loading .btn-text {
             opacity: 0.7;
         }
-
         .investments-list {
             margin-top: 8px;
         }
@@ -365,7 +349,6 @@
             font-weight: 600;
             margin-bottom: 10px;
         }
-
         .income-item {
             display: flex;
             justify-content: space-between;
@@ -389,7 +372,6 @@
             font-weight: 600;
             color: var(--gold);
         }
-
         .previous-claims {
             margin-top: 16px;
         }
@@ -408,7 +390,6 @@
             color: var(--text-white);
             font-weight: 500;
         }
-
         .empty-state {
             text-align: center;
             padding: 24px 16px;
@@ -430,7 +411,6 @@
             font-size: 0.75rem;
             font-weight: 300;
         }
-
         /* ============================================================
            MODAL
         ============================================================ */
@@ -458,7 +438,6 @@
                 opacity: 1;
             }
         }
-
         .modal-card {
             background: rgba(20, 20, 20, 0.95);
             backdrop-filter: blur(20px);
@@ -483,7 +462,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-
         .modal-card .modal-title {
             font-size: 1.1rem;
             font-weight: 600;
@@ -504,7 +482,6 @@
             color: var(--text-muted);
             margin-bottom: 16px;
         }
-
         .modal-pin-section {
             margin: 12px 0;
             text-align: center;
@@ -571,7 +548,6 @@
             height: 14px;
             cursor: pointer;
         }
-
         .modal-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -628,7 +604,6 @@
         .modal-actions .btn-modal.loading .btn-text {
             opacity: 0.7;
         }
-
         /* ============================================================
            SUCCESS / ERROR state in modal
         ============================================================ */
@@ -724,7 +699,6 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
-
         /* ============================================================
            BRANDING FOOTER
         ============================================================ */
@@ -743,7 +717,6 @@
             color: var(--gold);
             opacity: 0.7;
         }
-
         /* ============================================================
            BOTTOM NAVIGATION
         ============================================================ */
@@ -793,7 +766,6 @@
         .bottom-nav a.active svg {
             stroke: var(--gold);
         }
-
         /* ============================================================
            RESPONSIVE
         ============================================================ */
@@ -842,7 +814,6 @@
                 padding: 12px 0 6px;
             }
         }
-
         @media (min-width: 768px) {
             .page-scroll {
                 padding: 0 32px 40px 32px;
@@ -854,7 +825,6 @@
                 padding-bottom: 40px;
             }
         }
-
         /* ============================================================
            SCROLLBAR
         ============================================================ */
@@ -868,10 +838,6 @@
             background: rgba(201, 168, 76, 0.2);
             border-radius: 10px;
         }
-
-        /* ============================================================
-           UTILITY
-        ============================================================ */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -955,7 +921,7 @@
                 <div class="sub" id="income-sub">Eligible income from active investments</div>
             </div>
 
-            <!-- ===== WEEKEND MESSAGE (hidden by default) ===== -->
+            <!-- ===== WEEKEND MESSAGE ===== -->
             <div class="weekend-message hidden" id="weekend-message">
                 <div class="title">Weekend Claiming Unavailable</div>
                 <div class="desc">Income claims are available Monday to Friday. Please return on Monday to claim your eligible income.</div>
@@ -1042,7 +1008,7 @@
     </div>
 
     <!-- ============================================================
-    FIREBASE + APPLICATION LOGIC
+    FIREBASE + APPLICATION LOGIC (CORRECTED)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -1050,7 +1016,7 @@
         // ============================================================
         import { initializeApp } from 'firebase/app';
         import { getAuth, onAuthStateChanged } from 'firebase/auth';
-        import { getFirestore, collection, query, where, getDocs, orderBy, limit, doc, getDoc, runTransaction } from 'firebase/firestore';
+        import { getFirestore, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
         import { getFunctions, httpsCallable } from 'firebase/functions';
 
         // ============================================================
@@ -1135,7 +1101,6 @@
             const options = { timeZone: 'Africa/Lusaka', hour12: false };
             const dateStr = now.toLocaleDateString('en-US', options);
             const parts = dateStr.split('/');
-            // month/day/year
             const month = parseInt(parts[0]) - 1;
             const day = parseInt(parts[1]);
             const year = parseInt(parts[2]);
@@ -1158,7 +1123,7 @@
         }
 
         // ============================================================
-        // LOAD DATA
+        // LOAD DATA (USING CORRECT FIELD NAMES)
         // ============================================================
         async function loadIncomeData(uid) {
             try {
@@ -1176,12 +1141,12 @@
                     claimBtn.querySelector('.btn-text').textContent = 'Claim All Income';
                 }
 
-                // 1. Load active investments for this user
+                // 1. Load active investments – status = 'ACTIVE' (per spec)
                 const invRef = collection(db, 'investments');
                 const invQuery = query(
                     invRef,
                     where('userId', '==', uid),
-                    where('status', '==', 'active')
+                    where('status', '==', 'ACTIVE') // ✅ uppercase
                 );
                 const invSnap = await getDocs(invQuery);
                 const investments = [];
@@ -1202,10 +1167,11 @@
                         totalIncome += daily;
                         investments.push({
                             id: doc.id,
-                            planName: data.planName || 'Investment',
+                            // ✅ Correct field names: name, amount, image
+                            planName: data.name || 'Investment',
                             dailyReturn: daily,
-                            investmentAmount: Number(data.investmentAmount) || 0,
-                            imageUrl: data.imageUrl || 'https://placehold.co/400x225/1a1a1a/888?text=Investment'
+                            investmentAmount: Number(data.amount) || 0,
+                            imageUrl: data.image || 'https://placehold.co/400x225/1a1a1a/888?text=Investment'
                         });
                     }
                 });
@@ -1239,7 +1205,6 @@
 
             } catch (error) {
                 console.error('Error loading income data:', error);
-                // Show error state in the income summary
                 totalIncomeEl.textContent = '—';
                 incomeSub.textContent = 'Unable to load income data. Please try again.';
                 claimBtn.disabled = true;
@@ -1308,7 +1273,7 @@
                     `).join('');
             }
 
-            // Update claim button state based on weekend and eligibility
+            // Update claim button state
             if (!isWeekend && totalEligibleIncome > 0) {
                 claimBtn.disabled = false;
                 claimBtn.classList.remove('disabled');
@@ -1337,8 +1302,6 @@
             if (claimBtn.disabled) return;
             if (isWeekend) return;
             if (totalEligibleIncome <= 0) return;
-
-            // Show PIN modal
             showClaimModal();
         });
 
@@ -1374,7 +1337,6 @@
                     </div>
                 `;
 
-            // Setup PIN boxes
             const pinBoxes = modalCard.querySelectorAll('.pin-box');
             const pinError = modalCard.querySelector('#modal-pin-error');
             const confirmBtn = modalCard.querySelector('#modal-confirm');
@@ -1384,16 +1346,12 @@
             pinBoxes.forEach((box, idx) => {
                 box.addEventListener('input', () => {
                     box.value = box.value.replace(/\D/g, '');
-                    if (box.value && idx < 5) {
-                        pinBoxes[idx + 1].focus();
-                    }
+                    if (box.value && idx < 5) pinBoxes[idx + 1].focus();
                     pinError.textContent = '';
                     pinBoxes.forEach(b => b.classList.remove('error'));
                 });
                 box.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !box.value && idx > 0) {
-                        pinBoxes[idx - 1].focus();
-                    }
+                    if (e.key === 'Backspace' && !box.value && idx > 0) pinBoxes[idx - 1].focus();
                     if (e.key === 'ArrowLeft' && idx > 0) pinBoxes[idx - 1].focus();
                     if (e.key === 'ArrowRight' && idx < 5) pinBoxes[idx + 1].focus();
                 });
@@ -1402,9 +1360,7 @@
                     const data = (e.clipboardData || window.clipboardData).getData('text');
                     const digits = data.replace(/\D/g, '').slice(0, 6);
                     if (!digits.length) return;
-                    for (let i = 0; i < Math.min(digits.length, 6); i++) {
-                        pinBoxes[i].value = digits[i];
-                    }
+                    for (let i = 0; i < Math.min(digits.length, 6); i++) pinBoxes[i].value = digits[i];
                     const lastIdx = Math.min(digits.length, 6) - 1;
                     pinBoxes[lastIdx].focus();
                     pinError.textContent = '';
@@ -1438,7 +1394,6 @@
                 }
                 pinError.textContent = '';
                 pinBoxes.forEach(b => b.classList.remove('error'));
-
                 await processClaim(pin, confirmBtn, pinBoxes);
             });
 
@@ -1448,14 +1403,14 @@
         }
 
         // ============================================================
-        // PROCESS CLAIM via Cloud Function
+        // PROCESS CLAIM
         // ============================================================
         async function processClaim(pin, confirmBtn, pinBoxes) {
             confirmBtn.disabled = true;
             confirmBtn.classList.add('loading');
 
             try {
-                // Verify PIN via Cloud Function
+                // Verify PIN
                 const verifyPinFn = httpsCallable(functions, 'verifyPin');
                 const pinResult = await verifyPinFn({
                     uid: currentUser.uid,
@@ -1473,13 +1428,13 @@
                     return;
                 }
 
-                // PIN verified - call claimIncome function
+                // Call claimIncome (returns { success: true, totalClaimed: amount })
                 const claimFn = httpsCallable(functions, 'claimIncome');
                 const claimResult = await claimFn({});
 
                 if (claimResult.data && claimResult.data.success === true) {
-                    // Claim successful
-                    const claimedAmount = claimResult.data.amount || totalEligibleIncome;
+                    // ✅ Correct field: totalClaimed (not amount)
+                    const claimedAmount = claimResult.data.totalClaimed || totalEligibleIncome;
                     showClaimSuccess(claimedAmount);
                 } else {
                     const errorMsg = claimResult.data?.message || 'Claim failed. Please try again.';
@@ -1518,7 +1473,6 @@
                         </div>
                     </div>
                 `;
-            // Auto-close modal after 3s and reload to refresh data
             setTimeout(() => {
                 modal.classList.remove('open');
                 document.body.style.overflow = 'auto';
@@ -1546,4 +1500,30 @@
                 `;
             document.getElementById('modal-retry').addEventListener('click', () => {
                 modal.classList.remove('open');
-                document.body.style.overflow =
+                document.body.style.overflow = 'auto';
+                // Reload to refresh data
+                location.reload();
+            });
+            document.getElementById('modal-close').addEventListener('click', () => {
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // ============================================================
+        // AUTHENTICATION
+        // ============================================================
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = user;
+            loadIncomeData(user.uid);
+        });
+
+        console.log('PureOre Nexus — Income page ready (field names corrected).');
+    </script>
+
+</body>
+</html>
